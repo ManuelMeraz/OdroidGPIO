@@ -40,6 +40,8 @@ install(FILES
         DESTINATION
         "${INSTALL_CMAKE_DIR}" COMPONENT dev)
 
+install(DIRECTORY include/ DESTINATION ${INSTALL_INCLUDE_DIR})
+
 # Install the export set for use with the install-tree
 install(EXPORT gpioTargets
         DESTINATION "${INSTALL_CMAKE_DIR}"
