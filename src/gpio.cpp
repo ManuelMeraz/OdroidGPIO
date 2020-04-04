@@ -1,4 +1,4 @@
-#include "gpio/gpio.hpp"
+#include "odroid/gpio.hpp"
 
 #include <wiringPi.h>
 

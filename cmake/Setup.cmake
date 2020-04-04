@@ -1,8 +1,8 @@
 # Offer the user the choice of overriding the installation directories
-set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
+set(INSTALL_LIB_DIR lib/odroid-gpio CACHE PATH "Installation directory for libraries")
 set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
-set(INSTALL_INCLUDE_DIR include CACHE PATH "Installation directory for header files")
-set(INSTALL_CMAKE_DIR lib/CMake/gpio CACHE PATH "Installation directory for CMake files")
+set(INSTALL_INCLUDE_DIR include/odroid-gpio CACHE PATH "Installation directory for header files")
+set(INSTALL_CMAKE_DIR lib/CMake/odroid-gpio CACHE PATH "Installation directory for CMake files")
 
 # Make relative paths absolute (needed later on)
 foreach (directory LIB BIN INCLUDE CMAKE)
@@ -42,7 +42,7 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # tell find package the version
     include(CMakePackageConfigHelpers)
     write_basic_package_version_file(
-            gpioConfigVersion.cmake
+            OdroidGPIOConfigVersion.cmake
             VERSION ${PACKAGE_VERSION}
             COMPATIBILITY AnyNewerVersion
     )

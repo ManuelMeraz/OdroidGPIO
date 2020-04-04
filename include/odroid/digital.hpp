@@ -2,17 +2,17 @@
 // Created by manny on 3/31/20.
 //
 
-#ifndef GPIO_BRIDGE_PWM_HPP
-#define GPIO_BRIDGE_PWM_HPP
-#include <cstdint>
-#include <memory>
+#ifndef GPIO_BRIDGE_DIGITAL_HPP
+#define GPIO_BRIDGE_DIGITAL_HPP
 
-namespace gpio::pwm {
-enum class Mode : int { OUTPUT = 4, SOFT_OUTPUT = 6, TONE_OUTPUTOFF = 8, OFF = 0 };
+#include "../../../../../../usr/include/c++/7/cstdint"
+#include "../../../../../../usr/include/c++/7/memory"
 
-void duty_cycle(uint8_t pin_number, uint8_t duty_cycle);
-void clock(uint8_t hz);
-void range(uint16_t range);
+namespace gpio::digital {
+enum class Mode : uint8_t { INPUT = 0, OUTPUT = 1, OFF = 0 };
+enum class Write : uint8_t { LOW = 0, HIGH = 1 };
+
+void write(uint8_t pin_number, digital::Write mode);
 
 class Pin
 {
@@ -31,16 +31,12 @@ class Pin
 
    [[nodiscard]] auto mode() const -> Mode;
    void mode(Mode mode);
-
-   [[nodiscard]] auto duty_cycle() const -> uint8_t;
-   void duty_cycle(uint8_t duty_cycle);
+   void write(Write mode);
 
  private:
    uint8_t m_pin_number{};
-   uint8_t m_duty_cycle{};
-
    Mode m_mode{};
 };
-} // namespace gpio::pwm
+} // namespace gpio::digital
 
-#endif // GPIO_BRIDGE_PWM_HPP
+#endif // GPIO_BRIDGE_DIGITAL_HPP
