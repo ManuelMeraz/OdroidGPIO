@@ -1,0 +1,15 @@
+# - Config file for the gpio package
+# It defines the following variables
+#  GPIO_INCLUDE_DIRS - include directories for gpio
+#  GPIO_LIBRARIES    - libraries to link against
+#  GPIO_EXECUTABLE   - the bar executable
+
+# Compute paths
+get_filename_component(GPIO_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(GPIO_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+include("${GPIO_CMAKE_DIR}/gpioTargets.cmake")
+
+# These are IMPORTED targets created by gpioTargets.cmake
+set(GPIO_LIBRARIES foo)
