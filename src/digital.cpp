@@ -1,8 +1,4 @@
-//
-// Created by manny on 3/31/20.
-//
-
-#include "digital.hpp"
+#include "gpio/digital.hpp"
 
 #include "gpio/gpio.hpp"
 

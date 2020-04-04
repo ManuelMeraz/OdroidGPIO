@@ -9,10 +9,7 @@ target_link_libraries(gpio PRIVATE wiringPi)
 target_include_directories(gpio
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-        PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-        )
+        $<INSTALL_INTERFACE:include>)
 
 #set_target_properties(gpio PROPERTIES PUBLIC_HEADER "${CMAKE_SOURCE_DIR}/include/gpio/")
 

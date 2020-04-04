@@ -1,8 +1,4 @@
-//
-// Created by manny on 3/31/20.
-//
-
-#include "pwm.hpp"
+#include "gpio/pwm.hpp"
 
 #include "gpio/gpio.hpp"
 
