@@ -1,4 +1,4 @@
-# OdroidGPIO
+# odroid_gpio
 Modern C++ wrapper around WiringPi for Odroid. 
 
 Installation instructions for WiringPi on the odroid
