@@ -4,7 +4,7 @@
 
 #include "pwm.hpp"
 
-#include "gpio.hpp"
+#include "gpio/gpio.hpp"
 
 #include <wiringPi.h>
 
