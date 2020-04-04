@@ -1,21 +1,23 @@
-add_library(gpio
-        SHARED
-        digital.cpp
-        gpio.cpp
-        pwm.cpp)
+cmake_minimum_required(VERSION 3.10)
+project(odroid_gpio)
 
-add_library(gpio_bridge::gpio ALIAS gpio)
+if (NOT CMAKE_C_STANDARD)
+    set(CMAKE_C_STANDARD 99)
+endif ()
 
-target_link_libraries(gpio
-        PUBLIC
-        wiringPi
-        Threads::Threads
-        rt
-        crypt)
+if (NOT CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 17)
+endif ()
 
-target_include_directories(gpio
-        PUBLIC
-        ${PROJECT_SOURCE_DIR}/src/
+if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_compile_options(-Wall -Wextra -Wpedantic)
+endif ()
 
-        PRIVATE
-        WIRINGPI_INCLUDE_DIRS)
+# set thirdparty_libraries
+include(thirdparty/FindThirdParty.cmake)
+add_subdirectory(src)
+
+if (BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(tests)
+endif ()
