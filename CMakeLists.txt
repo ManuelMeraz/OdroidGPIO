@@ -10,10 +10,10 @@ include(cmake/Setup.cmake)
 add_subdirectory(src)
 
 # only test if building as main project
-if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     include(CTest)
-    #    add_subdirectory(tests)
-endif ()
+    add_subdirectory(tests)
+endif()
 
 # Add all targets to the build-tree export set
 export(TARGETS odroidgpio FILE "${PROJECT_BINARY_DIR}/OdroidGPIOTargets.cmake")

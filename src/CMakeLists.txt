@@ -6,7 +6,7 @@ add_library(odroidgpio
         digital/digital.cpp
         digital/PWMPin.cpp
         pwm/pwm.cpp
-        pwm/DigitalPin.cpp)
+        pwm/DigitalPin.cpp ../tests/test_pwm_pin.cpp ../tests/test_digital_pin.cpp)
 
 target_link_libraries(odroidgpio
         PUBLIC wiringPi
