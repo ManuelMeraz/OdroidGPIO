@@ -1,12 +1,12 @@
-#ifndef ODROID_GPIO_DIGITAL_GPP
-#define ODROID_GPIO_DIGITAL_GPP
+#ifndef ODROIDGPIO_DIGITAL_PIN_HPP
+#define ODROIDGPIO_DIGITAL_PIN_HPP
+
+#include "odroid/digital/digital.hpp"
 
 #include <cstdint>
 #include <memory>
 
 namespace gpio::digital {
-enum class Mode : uint8_t { INPUT = 0, OUTPUT = 1, OFF = 0 };
-enum class Write : uint8_t { LOW = 0, HIGH = 1 };
 class Pin
 {
  public:
@@ -32,4 +32,4 @@ class Pin
 };
 } // namespace gpio::digital
 
-#endif // ODROID_GPIO_DIGITAL_GPP
+#endif // ODROIDGPIO_DIGITAL_PIN_HPP

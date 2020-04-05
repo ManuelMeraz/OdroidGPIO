@@ -1,8 +1,8 @@
-#include "odroid/pwm.hpp"
-
-#include "detail/gpio.hpp"
 #include "detail/pwm/pwm.hpp"
 
+#include "detail/gpio.hpp"
+
+#include <odroid/gpio.hpp>
 #include <wiringPi.h>
 
 void gpio::pwm::duty_cycle(uint8_t pin_number, uint8_t duty_cycle)

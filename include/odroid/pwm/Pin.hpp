@@ -1,15 +1,12 @@
-#ifndef ODROID_GPIO_PWM_HPP
-#define ODROID_GPIO_PWM_HPP
+#ifndef ODROIDGPIO_PWM_PIN_HPP
+#define ODROIDGPIO_PWM_PIN_HPP
+
+#include "odroid/pwm/pwm.hpp"
 
 #include <cstdint>
 #include <memory>
 
 namespace gpio::pwm {
-enum class Mode : int { OUTPUT = 4, SOFT_OUTPUT = 6, TONE_OUTPUTOFF = 8, OFF = 0 };
-
-void clock(uint8_t hz);
-void range(uint16_t range);
-
 class Pin
 {
  public:
@@ -38,5 +35,4 @@ class Pin
    Mode m_mode{};
 };
 } // namespace gpio::pwm
-
-#endif // ODROID_GPIO_PWM_HPP
+#endif // ODROIDGPIO_PWM_PIN_HPP

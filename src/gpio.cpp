@@ -1,7 +1,6 @@
-#include "odroid/gpio.hpp"
-
 #include "detail/gpio.hpp"
 
+#include <odroid/gpio.hpp>
 #include <wiringPi.h>
 
 auto gpio::is_ready() -> bool

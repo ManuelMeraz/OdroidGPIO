@@ -2,7 +2,7 @@ add_library(odroidgpio
         STATIC
         digital.cpp
         gpio.cpp
-        pwm.cpp include/detail/gpio.hpp include/detail/digital/digital.hpp include/detail/pwm/pwm.hpp)
+        pwm.cpp include/detail/gpio.hpp include/detail/digital/digital.hpp include/detail/pwm/pwm.hpp ../include/odroid/digital/Pin.hpp ../include/odroid/pwm/Pin.hpp)
 
 target_link_libraries(odroidgpio PRIVATE wiringPi)
 target_include_directories(odroidgpio

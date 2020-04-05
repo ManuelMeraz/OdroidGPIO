@@ -1,7 +1,7 @@
 #ifndef ODROIDGPIO_DIGITAL_HPP
 #define ODROIDGPIO_DIGITAL_HPP
 
-#include "odroid/digital.hpp"
+#include "odroid/digital/digital.hpp"
 
 #include <cstdint>
 

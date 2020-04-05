@@ -1,8 +1,8 @@
-#include "odroid/digital.hpp"
-
-#include "detail/gpio.hpp"
 #include "detail/digital/digital.hpp"
 
+#include "detail/gpio.hpp"
+
+#include <odroid/digital/Pin.hpp>
 #include <wiringPi.h>
 
 void gpio::digital::write(uint8_t pin_number, Write mode)
