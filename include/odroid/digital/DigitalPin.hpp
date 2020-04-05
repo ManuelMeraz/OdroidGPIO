@@ -25,9 +25,9 @@ class DigitalPin final : public BasePin
    void mode(Mode mode);
    void write(Write mode);
 
+ private:
    friend class ::gpio::PinDatabase;
 
- private:
    explicit DigitalPin(uint8_t pin_number, Mode mode = Mode::OUTPUT);
    ~DigitalPin();
 
