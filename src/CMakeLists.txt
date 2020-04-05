@@ -1,12 +1,12 @@
 add_library(odroidgpio
-        STATIC
+        SHARED
         PinDatabase.cpp
         BasePin.cpp
         gpio.cpp
         digital/digital.cpp
         digital/PWMPin.cpp
         pwm/pwm.cpp
-        pwm/DigitalPin.cpp ../tests/test_pwm_pin.cpp ../tests/test_digital_pin.cpp)
+        pwm/DigitalPin.cpp)
 
 target_link_libraries(odroidgpio
         PUBLIC wiringPi
@@ -15,7 +15,7 @@ target_link_libraries(odroidgpio
 target_include_directories(odroidgpio
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
+        $<INSTALL_INTERFACE:include/OdroidGPIO>
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -23,7 +23,6 @@ install(TARGETS odroidgpio
         EXPORT OdroidGPIOTargets
         RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin
         LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT shlib
-        ARCHIVE DESTINATION ${INSTALL_LIB_DIR}/static
         PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}"
         COMPONENT dev)
 
