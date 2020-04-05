@@ -1,12 +1,8 @@
-//
-// Created by manny on 3/31/20.
-//
+#ifndef ODROID_GPIO_DIGITAL_GPP
+#define ODROID_GPIO_DIGITAL_GPP
 
-#ifndef GPIO_BRIDGE_DIGITAL_HPP
-#define GPIO_BRIDGE_DIGITAL_HPP
-
-#include "../../../../../../usr/include/c++/7/cstdint"
-#include "../../../../../../usr/include/c++/7/memory"
+#include <cstdint>
+#include <memory>
 
 namespace gpio::digital {
 enum class Mode : uint8_t { INPUT = 0, OUTPUT = 1, OFF = 0 };
@@ -39,4 +35,4 @@ class Pin
 };
 } // namespace gpio::digital
 
-#endif // GPIO_BRIDGE_DIGITAL_HPP
+#endif // ODROID_GPIO_DIGITAL_GPP

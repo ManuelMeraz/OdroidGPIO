@@ -2,13 +2,15 @@ add_library(odroidgpio
         STATIC
         digital.cpp
         gpio.cpp
-        pwm.cpp)
+        pwm.cpp include/detail/gpio.hpp)
 
 target_link_libraries(odroidgpio PRIVATE wiringPi)
 target_include_directories(odroidgpio
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>)
+        $<INSTALL_INTERFACE:include>
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 install(TARGETS odroidgpio
         EXPORT OdroidGPIOTargets

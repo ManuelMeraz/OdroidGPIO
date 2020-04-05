@@ -1,11 +1,8 @@
-//
-// Created by manny on 3/31/20.
-//
+#ifndef ODROID_GPIO_PWM_HPP
+#define ODROID_GPIO_PWM_HPP
 
-#ifndef GPIO_BRIDGE_PWM_HPP
-#define GPIO_BRIDGE_PWM_HPP
-#include "../../../../../../usr/include/c++/7/cstdint"
-#include "../../../../../../usr/include/c++/7/memory"
+#include <cstdint>
+#include <memory>
 
 namespace gpio::pwm {
 enum class Mode : int { OUTPUT = 4, SOFT_OUTPUT = 6, TONE_OUTPUTOFF = 8, OFF = 0 };
@@ -43,4 +40,4 @@ class Pin
 };
 } // namespace gpio::pwm
 
-#endif // GPIO_BRIDGE_PWM_HPP
+#endif // ODROID_GPIO_PWM_HPP

@@ -1,6 +1,6 @@
 #include "odroid/digital.hpp"
 
-#include "odroid/gpio.hpp"
+#include "detail/gpio.hpp"
 
 #include <wiringPi.h>
 
