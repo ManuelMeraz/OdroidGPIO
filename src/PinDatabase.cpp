@@ -25,3 +25,9 @@ auto gpio::PinDatabase::emplace(std::pair<uint8_t, std::unique_ptr<BasePin>>&& d
    auto& stored_data = g_database->m_database;
    stored_data.emplace(std::move(data));
 }
+
+auto gpio::PinDatabase::get(uint8_t pin_number) -> gpio::BasePin&
+{
+   auto& stored_data = g_database->m_database;
+   return *stored_data.at(pin_number);
+}
