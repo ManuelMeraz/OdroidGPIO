@@ -5,23 +5,20 @@
 
 #include <cstdint>
 #include <memory>
-#include <odroid/BasePin.hpp>
 
 namespace gpio::pwm {
-class Pin : public BasePin
+class PWMPin
 {
  public:
-   using uPtr = std::unique_ptr<Pin>;
-   using sPtr = std::shared_ptr<Pin>;
+   using uPtr = std::unique_ptr<PWMPin>;
+   using sPtr = std::shared_ptr<PWMPin>;
 
-   Pin() = delete;
-   Pin(const Pin&) = delete;
-   Pin(Pin&&) = delete;
-   auto operator=(const Pin&) -> Pin& = delete;
-   auto operator=(Pin &&) -> Pin& = delete;
-
-   explicit Pin(uint8_t pin_number, Mode mode = Mode::OUTPUT);
-   ~Pin();
+   PWMPin() = delete;
+   PWMPin(const PWMPin&) = delete;
+   PWMPin(PWMPin&&) = delete;
+   auto operator=(const PWMPin&) -> PWMPin& = delete;
+   auto operator=(PWMPin &&) -> PWMPin& = delete;
+   ~PWMPin();
 
    [[nodiscard]] auto mode() const -> Mode;
    void mode(Mode mode);
@@ -30,6 +27,9 @@ class Pin : public BasePin
    void duty_cycle(uint8_t duty_cycle);
 
  private:
+   friend class PinDatabase;
+
+   explicit PWMPin(uint8_t pin_number, Mode mode = Mode::OUTPUT);
    uint8_t m_pin_number{};
    uint8_t m_duty_cycle{};
 

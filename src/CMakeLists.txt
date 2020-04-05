@@ -1,11 +1,11 @@
 add_library(odroidgpio
         STATIC
-        BasePin.cpp
+        PinDatabase.cpp
         gpio.cpp
         digital/digital.cpp
-        digital/Pin.cpp
+        digital/PWMPin.cpp
         pwm/pwm.cpp
-        pwm/Pin.cpp)
+        pwm/DigitalPin.cpp)
 
 target_link_libraries(odroidgpio
         PUBLIC wiringPi
