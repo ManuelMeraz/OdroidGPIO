@@ -14,17 +14,14 @@ struct PinDatabaseDeleter
 std::unique_ptr<gpio::PinDatabase, PinDatabaseDeleter> g_database{nullptr};
 } // namespace
 
-// auto gpio::PinDatabase::get_pin(uint8_t pin_number) -> std::variant<gpio::digital::Pin,
-// gpio::pwm::Pin>
-//{
-////   auto& database = *g_database;
-////   if(database.contains(pin_number)) {
-////      return database.m_database.at(pin_number);
-////   }
-//   return std::variant<gpio::digital::Pin, gpio::pwm::Pin>();
-//}
+auto gpio::PinDatabase::contains(uint8_t pin_number) -> bool
+{
+   auto& stored_data = g_database->m_database;
+   return stored_data.find(pin_number) != stored_data.end();
+}
 
-// auto gpio::PinDatabase::contains(uint8_t pin_number) -> bool
-//{
-//   return m_database.find(pin_number) != m_database.end();
-//}
+auto gpio::PinDatabase::emplace(std::pair<uint8_t, std::unique_ptr<BasePin>>&& data) -> void
+{
+   auto& stored_data = g_database->m_database;
+   stored_data.emplace(std::move(data));
+}

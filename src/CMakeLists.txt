@@ -1,6 +1,7 @@
 add_library(odroidgpio
         STATIC
         PinDatabase.cpp
+        BasePin.cpp
         gpio.cpp
         digital/digital.cpp
         digital/PWMPin.cpp
