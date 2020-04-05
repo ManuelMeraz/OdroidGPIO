@@ -5,9 +5,10 @@
 
 #include <cstdint>
 #include <memory>
+#include <odroid/BasePin.hpp>
 
 namespace gpio::pwm {
-class Pin
+class Pin : public BasePin
 {
  public:
    using uPtr = std::unique_ptr<Pin>;

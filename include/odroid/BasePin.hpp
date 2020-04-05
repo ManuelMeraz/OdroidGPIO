@@ -1,0 +1,8 @@
+#ifndef ODROIDGPIO_BASEPIN_HPP
+#define ODROIDGPIO_BASEPIN_HPP
+
+class BasePin
+{
+};
+
+#endif // ODROIDGPIO_BASEPIN_HPP

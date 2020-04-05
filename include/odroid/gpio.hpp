@@ -1,5 +1,5 @@
-#ifndef ODROID_GPIO_HPP
-#define ODROID_GPIO_HPP
+#ifndef ODROIDGPIO_HPP
+#define ODROIDGPIO_HPP
 
 #include "odroid/digital/Pin.hpp"
 #include "odroid/digital/digital.hpp"
@@ -14,4 +14,4 @@ auto is_ready() -> bool;
 void sleep(std::chrono::milliseconds duration);
 } // namespace gpio
 
-#endif // ODROID_GPIO_HPP
+#endif // ODROIDGPIO_HPP

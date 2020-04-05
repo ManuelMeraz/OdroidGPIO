@@ -1,5 +1,5 @@
-#ifndef ODROIDGPIO_DIGITAL_HPP
-#define ODROIDGPIO_DIGITAL_HPP
+#ifndef DETAIL_ODROIDGPIO_DIGITAL_HPP
+#define DETAIL_ODROIDGPIO_DIGITAL_HPP
 
 #include "odroid/digital/digital.hpp"
 
@@ -9,5 +9,4 @@ namespace gpio::digital {
 void write(uint8_t pin_number, digital::Write mode);
 }
 
-
-#endif // ODROIDGPIO_DIGITAL_HPP
+#endif // DETAIL_ODROIDGPIO_DIGITAL_HPP

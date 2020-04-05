@@ -1,6 +1,6 @@
 add_library(odroidgpio
         STATIC
-        Pin.cpp
+        BasePin.cpp
         gpio.cpp
         digital/digital.cpp
         digital/Pin.cpp

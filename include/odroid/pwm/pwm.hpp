@@ -10,4 +10,4 @@ void clock(uint8_t hz);
 void range(uint16_t range);
 } // namespace gpio::pwm
 
-#endif // ODROID_GPIO_PWM_HPP
+#endif // ODROIDGPIO_PWM_HPP

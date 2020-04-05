@@ -5,9 +5,10 @@
 
 #include <cstdint>
 #include <memory>
+#include <odroid/BasePin.hpp>
 
 namespace gpio::digital {
-class Pin
+class Pin : BasePin
 {
  public:
    using uPtr = std::unique_ptr<Pin>;
