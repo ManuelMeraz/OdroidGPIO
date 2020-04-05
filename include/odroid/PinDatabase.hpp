@@ -2,8 +2,7 @@
 #define ODROIDGPIO_PINDATABASE_HPP
 
 #include <memory>
-#include <odroid/digital/DigitalPin.hpp>
-#include <odroid/pwm/PWMPin.hpp>
+#include <odroid/BasePin.hpp>
 #include <unordered_map>
 #include <variant>
 
@@ -15,30 +14,37 @@ class PinDatabase
    PinDatabase(PinDatabase&&) = delete;
    auto operator=(const PinDatabase&) -> PinDatabase& = delete;
    auto operator=(PinDatabase &&) -> PinDatabase& = delete;
-   ~PinDatabase() = default;
+   ~PinDatabase();
 
-   static auto contains(uint8_t pin_number) -> bool;
+   static auto instance() -> PinDatabase&;
+   auto contains(uint8_t pin_number) -> bool;
+   auto get(uint8_t pin_number) -> BasePin&;
 
-   static auto emplace(std::pair<uint8_t, std::unique_ptr<BasePin>>&& data) -> void;
-   static auto get(uint8_t pin_number) -> BasePin&;
+   template <typename Pin, typename... Args>
+   auto make(uint8_t pin_number, Args&&... args) -> Pin&
+   {
+      auto& stored_data = m_database;
+      auto* pin = new Pin(pin_number, args...);
+      stored_data.emplace(std::make_pair(pin_number, std::move(pin)));
+      return *pin;
+   }
 
    template <typename Pin,
              typename... Args,
              typename std::enable_if_t<std::is_base_of_v<BasePin, std::decay_t<Pin>>, int> = 0>
    static auto get(uint8_t pin_number, Args&&... args) -> Pin&
    {
-      if (PinDatabase::contains(pin_number)) {
-         return static_cast<Pin>(PinDatabase::get(pin_number));
+      auto& database = PinDatabase::instance();
+      if (database.contains(pin_number)) {
+         return static_cast<Pin&>(database.get(pin_number));
       }
 
-      const auto pin = std::make_unique<Pin>(pin_number, args...);
-      PinDatabase::emplace(std::make_pair(pin_number, std::move(pin)));
-      return *pin;
+      return database.make<Pin>(pin_number, args...);
    }
 
  private:
    explicit PinDatabase() = default;
-   std::unordered_map<uint8_t, std::unique_ptr<BasePin>> m_database;
+   std::unordered_map<uint8_t, BasePin*> m_database;
 };
 } // namespace gpio
 
