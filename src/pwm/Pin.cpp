@@ -1,23 +1,6 @@
-#include "detail/pwm/pwm.hpp"
-
-#include "detail/gpio.hpp"
-
-#include <odroid/gpio.hpp>
-#include <wiringPi.h>
-
-void gpio::pwm::duty_cycle(uint8_t pin_number, uint8_t duty_cycle)
-{
-   pwmWrite(pin_number, duty_cycle);
-}
-
-void gpio::pwm::clock(uint8_t hz)
-{
-   pwmSetClock(hz);
-}
-void gpio::pwm::range(uint16_t range)
-{
-   pwmSetRange(range);
-}
+#include <detail/gpio.hpp>
+#include <detail/pwm/pwm.hpp>
+#include <odroid/pwm/Pin.hpp>
 
 gpio::pwm::Pin::Pin(uint8_t pin_number, Mode mode) : m_pin_number(pin_number), m_mode(mode)
 {
