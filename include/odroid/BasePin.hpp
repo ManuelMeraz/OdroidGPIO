@@ -14,7 +14,7 @@ class BasePin
    auto operator=(BasePin &&) -> BasePin& = delete;
    ~BasePin() = default;
 
-   [[nodiscard]] auto pin_number() -> uint8_t;
+   [[nodiscard]] auto pin_number() const -> uint8_t;
 
  protected:
    explicit BasePin(uint8_t pin_number);

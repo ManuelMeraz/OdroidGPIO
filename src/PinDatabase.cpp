@@ -16,6 +16,10 @@ std::unique_ptr<gpio::PinDatabase, PinDatabaseDeleter> g_database{nullptr};
 
 auto gpio::PinDatabase::instance() -> gpio::PinDatabase&
 {
+   if (g_database == nullptr) {
+      g_database.reset(new gpio::PinDatabase());
+   }
+
    return *g_database;
 }
 
