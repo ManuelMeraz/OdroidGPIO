@@ -4,7 +4,10 @@ add_library(odroidgpio
         gpio.cpp
         pwm.cpp include/detail/gpio.hpp include/detail/digital/digital.hpp include/detail/pwm/pwm.hpp ../include/odroid/digital/Pin.hpp ../include/odroid/pwm/Pin.hpp)
 
-target_link_libraries(odroidgpio PRIVATE wiringPi)
+target_link_libraries(odroidgpio
+        PUBLIC wiringPi
+        PRIVATE Threads::Threads rt crypt)
+
 target_include_directories(odroidgpio
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
