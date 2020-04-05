@@ -7,9 +7,6 @@
 namespace gpio::digital {
 enum class Mode : uint8_t { INPUT = 0, OUTPUT = 1, OFF = 0 };
 enum class Write : uint8_t { LOW = 0, HIGH = 1 };
-
-void write(uint8_t pin_number, digital::Write mode);
-
 class Pin
 {
  public:

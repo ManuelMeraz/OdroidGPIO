@@ -1,6 +1,7 @@
 #include "odroid/pwm.hpp"
 
 #include "detail/gpio.hpp"
+#include "detail/pwm/pwm.hpp"
 
 #include <wiringPi.h>
 
