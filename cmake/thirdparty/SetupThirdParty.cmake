@@ -6,6 +6,5 @@ find_library(crypt crypt REQUIRED)
 
 find_package(wiringPi REQUIRED)
 add_library(wiringPi SHARED IMPORTED)
-set_property(TARGET wiringPi PROPERTY IMPORTED_LOCATION ${WIRINGPI_LIBRARIES})
-target_include_directories(wiringPi INTERFACE ${WIRINGPI_INCLUDE_DIRS})
-target_link_libraries(wiringPi INTERFACE Threads::Threads rt crypt)
+set_target_properties(wiringPi PROPERTIES IMPORTED_LOCATION ${WIRINGPI_LIBRARIES})
+set_target_properties(wiringPi PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${WIRINGPI_INCLUDE_DIRS})
