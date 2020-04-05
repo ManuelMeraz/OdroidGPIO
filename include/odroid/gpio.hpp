@@ -1,6 +1,7 @@
 #ifndef ODROIDGPIO_HPP
 #define ODROIDGPIO_HPP
 
+#include "BasePin.hpp"
 #include "PinDatabase.hpp"
 #include "odroid/digital/DigitalPin.hpp"
 #include "odroid/digital/digital.hpp"

@@ -12,9 +12,6 @@ namespace gpio::pwm {
 class PWMPin final : public BasePin
 {
  public:
-   using uPtr = std::unique_ptr<PWMPin>;
-   using sPtr = std::shared_ptr<PWMPin>;
-
    PWMPin() = delete;
    PWMPin(const PWMPin&) = delete;
    PWMPin(PWMPin&&) = delete;

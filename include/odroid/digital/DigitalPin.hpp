@@ -12,9 +12,6 @@ namespace gpio::digital {
 class DigitalPin final : public BasePin
 {
  public:
-   using uPtr = std::unique_ptr<DigitalPin>;
-   using sPtr = std::shared_ptr<DigitalPin>;
-
    DigitalPin() = delete;
    DigitalPin(const DigitalPin&) = delete;
    DigitalPin(DigitalPin&&) = delete;
