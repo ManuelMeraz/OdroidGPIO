@@ -22,15 +22,15 @@ class PWMPin final : public BasePin
    [[nodiscard]] auto mode() const -> Mode;
    void mode(Mode mode);
 
-   [[nodiscard]] auto duty_cycle() const -> uint8_t;
-   void duty_cycle(uint8_t duty_cycle);
+   [[nodiscard]] auto duty_cycle() const -> uint16_t;
+   void duty_cycle(uint16_t duty_cycle);
 
  private:
    friend class ::gpio::PinDatabase;
 
-   explicit PWMPin(uint8_t pin_number, Mode mode = Mode::OUTPUT);
-   uint8_t m_pin_number{};
-   uint8_t m_duty_cycle{};
+   explicit PWMPin(uint16_t pin_number, Mode mode = Mode::OUTPUT);
+   uint16_t m_pin_number{};
+   uint16_t m_duty_cycle{};
 
    Mode m_mode{};
 };

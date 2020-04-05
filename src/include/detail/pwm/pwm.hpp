@@ -4,7 +4,7 @@
 #include <cstdint>
 
 namespace gpio::pwm {
-void duty_cycle(uint8_t pin_number, uint8_t duty_cycle);
+void duty_cycle(uint16_t pin_number, uint16_t duty_cycle);
 }
 
 #endif // DETAIL_ODROIDGPIO_PWM_HPP

@@ -25,10 +25,10 @@ class DigitalPin final : public BasePin
  private:
    friend class ::gpio::PinDatabase;
 
-   explicit DigitalPin(uint8_t pin_number, Mode mode = Mode::OUTPUT);
+   explicit DigitalPin(uint16_t pin_number, Mode mode = Mode::OUTPUT);
    ~DigitalPin();
 
-   uint8_t m_pin_number{};
+   uint16_t m_pin_number{};
    Mode m_mode{};
 };
 } // namespace gpio::digital

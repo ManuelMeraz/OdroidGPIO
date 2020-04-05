@@ -23,13 +23,13 @@ auto gpio::PinDatabase::instance() -> gpio::PinDatabase&
    return *g_database;
 }
 
-auto gpio::PinDatabase::contains(uint8_t pin_number) -> bool
+auto gpio::PinDatabase::contains(uint16_t pin_number) -> bool
 {
    auto& stored_data = g_database->m_database;
    return stored_data.find(pin_number) != stored_data.end();
 }
 
-auto gpio::PinDatabase::get(uint8_t pin_number) -> gpio::BasePin&
+auto gpio::PinDatabase::get(uint16_t pin_number) -> gpio::BasePin&
 {
    auto& stored_data = g_database->m_database;
    return *stored_data.at(pin_number);
@@ -37,7 +37,7 @@ auto gpio::PinDatabase::get(uint8_t pin_number) -> gpio::BasePin&
 
 gpio::PinDatabase::~PinDatabase()
 {
-   uint8_t pin_number{};
+   uint16_t pin_number{};
    for (auto& [_, pin] : m_database) {
       pin_number = _;
       delete pin;

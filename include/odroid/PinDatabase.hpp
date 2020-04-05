@@ -17,11 +17,11 @@ class PinDatabase
    ~PinDatabase();
 
    static auto instance() -> PinDatabase&;
-   auto contains(uint8_t pin_number) -> bool;
-   auto get(uint8_t pin_number) -> BasePin&;
+   auto contains(uint16_t pin_number) -> bool;
+   auto get(uint16_t pin_number) -> BasePin&;
 
    template <typename Pin, typename... Args>
-   auto make(uint8_t pin_number, Args&&... args) -> Pin&
+   auto make(uint16_t pin_number, Args&&... args) -> Pin&
    {
       auto& stored_data = m_database;
       auto* pin = new Pin(pin_number, args...);
@@ -32,7 +32,7 @@ class PinDatabase
    template <typename Pin,
              typename... Args,
              typename std::enable_if_t<std::is_base_of_v<BasePin, std::decay_t<Pin>>, int> = 0>
-   static auto get(uint8_t pin_number, Args&&... args) -> Pin&
+   static auto get(uint16_t pin_number, Args&&... args) -> Pin&
    {
       auto& database = PinDatabase::instance();
       if (database.contains(pin_number)) {
@@ -44,7 +44,7 @@ class PinDatabase
 
  private:
    explicit PinDatabase() = default;
-   std::unordered_map<uint8_t, BasePin*> m_database;
+   std::unordered_map<uint16_t, BasePin*> m_database;
 };
 } // namespace gpio
 

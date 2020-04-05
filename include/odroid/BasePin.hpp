@@ -14,14 +14,14 @@ class BasePin
    auto operator=(BasePin &&) -> BasePin& = delete;
    ~BasePin() = default;
 
-   [[nodiscard]] auto pin_number() const -> uint8_t;
+   [[nodiscard]] auto pin_number() const -> uint16_t;
 
  protected:
-   explicit BasePin(uint8_t pin_number);
+   explicit BasePin(uint16_t pin_number);
 
  private:
    friend class PinDatabase;
-   uint8_t m_pin_number;
+   uint16_t m_pin_number;
 };
 } // namespace gpio
 

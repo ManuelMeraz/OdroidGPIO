@@ -6,7 +6,7 @@
 #include <cstdint>
 
 namespace gpio::digital {
-void write(uint8_t pin_number, digital::Write mode);
+void write(uint16_t pin_number, digital::Write mode);
 }
 
 #endif // DETAIL_ODROIDGPIO_DIGITAL_HPP
