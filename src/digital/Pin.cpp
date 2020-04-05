@@ -3,7 +3,7 @@
 #include <odroid/digital/Pin.hpp>
 #include <wiringPi.h>
 
-gpio::digital::Pin::Pin(uint8_t pin_number, Mode mode) : m_pin_number(pin_number), m_mode(mode)
+gpio::digital::Pin::Pin(uint8_t pin_number, Mode mode) : BasePin(pin_number), m_mode(mode)
 {
    gpio::pin_mode(m_pin_number, static_cast<uint8_t>(m_mode));
 }
