@@ -12,7 +12,7 @@
 #include <cstdint>
 
 namespace gpio {
-auto is_ready() -> bool;
+auto setup() -> bool;
 void sleep(std::chrono::milliseconds duration);
 
 template <typename Pin,

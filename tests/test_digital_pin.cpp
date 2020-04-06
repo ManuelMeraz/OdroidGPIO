@@ -3,7 +3,7 @@
 
 auto main() -> int
 {
-   if (!gpio::is_ready()) {
+   if (!gpio::setup()) {
       return 1;
    }
 

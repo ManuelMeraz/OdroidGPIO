@@ -3,7 +3,7 @@
 #include <odroid/gpio.hpp>
 #include <wiringPi.h>
 
-auto gpio::is_ready() -> bool
+auto gpio::setup() -> bool
 {
    return wiringPiSetup() != -1;
 }
