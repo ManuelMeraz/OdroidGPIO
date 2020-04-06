@@ -1,7 +1,7 @@
 #include <iostream>
 #include <odroid/gpio.hpp>
 
-constexpr uint8_t PIN{0};
+constexpr uint8_t PIN{0}; // physical pin 11 on odroid n2
 constexpr size_t NUM_LOOPS{1000};
 
 using namespace std::chrono_literals;

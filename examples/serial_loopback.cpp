@@ -1,9 +1,15 @@
 #include <iostream>
 #include <odroid/gpio.hpp>
 
-constexpr uint8_t RX_PIN{10};
-constexpr uint8_t TX_PIN{8};
+constexpr uint8_t RX_PIN{16}; // physical pin 10 on odroid n2
+constexpr uint8_t TX_PIN{15}; // physical pin 8 on odroid n2
+
+/**
+ *  Needs to be enabled. Disabled by default.
+ * https://wiki.odroid.com/odroid-n2/application_note/gpio/uart
+ */
 constexpr auto DEVICE_NAME{"/dev/ttyS1"};
+
 constexpr uint32_t BAUD_RATE{115200};
 
 namespace serial = gpio::serial;
