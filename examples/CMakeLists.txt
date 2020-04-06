@@ -1,6 +1,7 @@
 list(APPEND examples
         serial_loopback
-        led_on_off)
+        led_on_off
+        pwm_duty_cycle)
 
 foreach(example IN LISTS examples)
     add_executable(${example} ${example}.cpp)

@@ -32,6 +32,10 @@ auto gpio::pwm::PWMPin::duty_cycle() const -> uint16_t
 
 void gpio::pwm::PWMPin::duty_cycle(uint16_t duty_cycle)
 {
+   if (duty_cycle > 100) {
+      throw std::invalid_argument("Duty cycle must be: [0, 100]");
+   }
+
    m_duty_cycle = duty_cycle;
    gpio::pwm::duty_cycle(m_pin_number, duty_cycle);
 }
