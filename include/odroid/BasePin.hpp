@@ -2,6 +2,8 @@
 #define ODROIDGPIO_BASEPIN_HPP
 
 #include <cstdint>
+#include <string>
+#include <string_view>
 
 namespace gpio {
 class BasePin
@@ -20,7 +22,12 @@ class BasePin
 
  protected:
    explicit BasePin(uint16_t pin_number);
+
+   [[nodiscard]] auto type() -> std::string_view;
+   void type(std::string_view type);
+
    uint16_t m_pin_number;
+   std::string m_type;
 };
 } // namespace gpio
 

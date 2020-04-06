@@ -1,6 +1,7 @@
 #ifndef ODROIDGPIO_PINDATABASE_HPP
 #define ODROIDGPIO_PINDATABASE_HPP
 
+#include <nameof/nameof.hpp>
 #include <odroid/BasePin.hpp>
 #include <unordered_map>
 
@@ -23,6 +24,7 @@ class PinDatabase
    {
       auto& stored_data = m_database;
       auto* pin = new Pin(pin_number, args...);
+      pin->type(nameof::nameof_type<std::decay_t<Pin>>());
       stored_data.emplace(std::make_pair(pin_number, std::move(pin)));
       return *pin;
    }
@@ -34,7 +36,12 @@ class PinDatabase
    {
       auto& database = PinDatabase::instance();
       if (database.contains(pin_number)) {
-         return static_cast<Pin&>(database.get(pin_number));
+         auto& pin = database.get(pin_number);
+         if (nameof::nameof_type<std::decay_t<Pin>>() != pin.type()) {
+            throw std::invalid_argument("Attempted to get pin that exists with incorrect type");
+         }
+
+         return static_cast<Pin&>(pin);
       }
 
       return database.make<Pin>(pin_number, args...);

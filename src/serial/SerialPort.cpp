@@ -46,7 +46,7 @@ auto gpio::serial::SerialPort::get(std::optional<uint16_t> rx_pin,
             std::cerr << "Missing device name pin from argument" << std::endl;
          }
 
-         std::__throw_invalid_argument("Need rx pin, tx pin, and device name to get serial port");
+         throw std::invalid_argument("Need rx pin, tx pin, and device name to get serial port");
       }
 
       g_serial_port.reset(new gpio::serial::SerialPort(*rx_pin, *tx_pin, *device_name));
