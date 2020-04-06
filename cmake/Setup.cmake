@@ -5,30 +5,29 @@ set(INSTALL_INCLUDE_DIR include/OdroidGPIO CACHE PATH "Installation directory fo
 set(INSTALL_CMAKE_DIR lib/cmake/OdroidGPIO CACHE PATH "Installation directory for CMake files")
 
 # Make relative paths absolute (needed later on)
-foreach (directory LIB BIN INCLUDE CMAKE)
+foreach(directory LIB BIN INCLUDE CMAKE)
     set(var INSTALL_${directory}_DIR)
-    if (NOT IS_ABSOLUTE "${${var}}")
+    if(NOT IS_ABSOLUTE "${${var}}")
         set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
-    endif ()
-endforeach ()
-
+    endif()
+endforeach()
 
 # creates compile_commands.json database for linters
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Only do these if this is the main project, and not if it is included through add_subdirectory
-if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    if (NOT CMAKE_C_STANDARD)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    if(NOT CMAKE_C_STANDARD)
         set(CMAKE_C_STANDARD 99)
-    endif ()
+    endif()
 
-    if (NOT CMAKE_CXX_STANDARD)
+    if(NOT CMAKE_CXX_STANDARD)
         set(CMAKE_CXX_STANDARD 17)
-    endif ()
+    endif()
 
-    if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         add_compile_options(-Wall -Wextra -Wpedantic)
-    endif ()
+    endif()
 
     # Let's ensure -std=c++xx instead of -std=g++xx
     set(CMAKE_CXX_EXTENSIONS OFF)
@@ -46,7 +45,7 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
             VERSION ${PACKAGE_VERSION}
             COMPATIBILITY AnyNewerVersion
     )
-endif ()
+endif()
 
 configure_file(cmake/config.h.in "${CMAKE_CURRENT_BINARY_DIR}/config.h" @ONLY)
 
