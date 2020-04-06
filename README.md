@@ -25,5 +25,5 @@ target_link_libraries(libodroidgpio INTERFACE ${ODROIDGPIO_LIBRARIES})
 target_include_directories(libodroidgpio INTERFACE ${ODROIDGPIO_INCLUDE_DIRS})
 
 add_executable(main main.cpp)
-target_link_libraries(main PRIVATE libodroidgpio)
+target_link_libraries(main PRIVATE libodroidgpio Threads::Threads)
 ```
