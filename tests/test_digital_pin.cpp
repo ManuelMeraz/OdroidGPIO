@@ -22,5 +22,14 @@ auto main() -> int
 
    std::cout << "first instance mode should be 0 -> " << static_cast<int>(digital_pin.mode())
              << std::endl;
+
+   namespace pwm = gpio::pwm;
+   try {
+      gpio::get<pwm::PWMPin>(10, pwm::Mode::OUTPUT);
+      std::cerr << "Failed to catch incorrect pin type." << std::endl;
+   } catch (const std::invalid_argument& e) {
+      std::cout << "Caught incorrect pin type. Passed." << std::endl;
+   }
+
    return 0;
 }
