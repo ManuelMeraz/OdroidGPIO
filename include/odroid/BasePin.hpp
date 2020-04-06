@@ -16,11 +16,10 @@ class BasePin
 
    [[nodiscard]] auto pin_number() const -> uint16_t;
 
+   friend class PinDatabase;
+
  protected:
    explicit BasePin(uint16_t pin_number);
-
- private:
-   friend class PinDatabase;
    uint16_t m_pin_number;
 };
 } // namespace gpio

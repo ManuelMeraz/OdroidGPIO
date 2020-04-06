@@ -29,7 +29,7 @@ class PWMPin final : public BasePin
    friend class ::gpio::PinDatabase;
 
    explicit PWMPin(uint16_t pin_number, Mode mode = Mode::OUTPUT);
-   uint16_t m_pin_number{};
+
    uint16_t m_duty_cycle{};
 
    Mode m_mode{};

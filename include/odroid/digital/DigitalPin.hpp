@@ -28,7 +28,6 @@ class DigitalPin final : public BasePin
    explicit DigitalPin(uint16_t pin_number, Mode mode = Mode::OUTPUT);
    ~DigitalPin();
 
-   uint16_t m_pin_number{};
    Mode m_mode{};
 };
 } // namespace gpio::digital
