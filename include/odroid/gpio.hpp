@@ -8,7 +8,6 @@
 #include "odroid/pwm/PWMPin.hpp"
 #include "odroid/pwm/pwm.hpp"
 #include "odroid/serial/SerialPort.hpp"
-#include "odroid/serial/serial.hpp"
 
 #include <chrono>
 #include <cstdint>

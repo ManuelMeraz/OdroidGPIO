@@ -32,9 +32,9 @@ void gpio::serial::write_byte(const int file_descriptor, const uint8_t byte)
    serialPutchar(file_descriptor, static_cast<unsigned char>(byte));
 }
 
-auto gpio::serial::read_byte(int file_descriptor) -> uint8_t
+auto gpio::serial::read_byte(int file_descriptor) -> int
 {
-   return static_cast<uint8_t>(serialGetchar(file_descriptor));
+   return serialGetchar(file_descriptor);
 }
 
 void gpio::serial::write(const int file_descriptor, const std::string& message)

@@ -1,8 +1,6 @@
 #ifndef ODROIDGPIO_SERIALPORT_HPP
 #define ODROIDGPIO_SERIALPORT_HPP
 
-#include "odroid/serial/serial.hpp"
-
 #include <odroid/BasePin.hpp>
 
 namespace gpio::serial {

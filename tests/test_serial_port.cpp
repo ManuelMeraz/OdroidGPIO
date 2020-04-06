@@ -1,5 +1,7 @@
 #include <iostream>
 #include <odroid/gpio.hpp>
+#include <wiringPi.h>
+#include <wiringSerial.h>
 
 auto main() -> int
 {
@@ -17,6 +19,5 @@ auto main() -> int
 
    serial_port.write("hello");
    std::cout << serial_port.read() << std::endl;
-
    return 0;
 }
