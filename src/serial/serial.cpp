@@ -3,7 +3,7 @@
 #include <sstream>
 #include <wiringSerial.h>
 
-int gpio::serial::open(const std::string& device, uint32_t baud_rate)
+auto gpio::serial::open(const std::string& device, uint32_t baud_rate) -> int
 {
 
    const int file_descriptor = serialOpen(device.c_str(), static_cast<int>(baud_rate));
@@ -32,6 +32,11 @@ void gpio::serial::write_byte(const int file_descriptor, const uint8_t byte)
    serialPutchar(file_descriptor, static_cast<unsigned char>(byte));
 }
 
+auto gpio::serial::read_byte(int file_descriptor) -> uint8_t
+{
+   return static_cast<uint8_t>(serialGetchar(file_descriptor));
+}
+
 void gpio::serial::write(const int file_descriptor, const std::string& message)
 {
    serialPuts(file_descriptor, message.c_str());
@@ -40,4 +45,9 @@ void gpio::serial::write(const int file_descriptor, const std::string& message)
 void gpio::serial::print(const int file_descriptor, const std::string& message)
 {
    serialPrintf(file_descriptor, message.c_str());
+}
+
+auto gpio::serial::data_available(int file_descriptor) -> bool
+{
+   return serialDataAvail(file_descriptor);
 }
