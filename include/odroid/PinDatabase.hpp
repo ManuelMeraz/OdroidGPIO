@@ -1,10 +1,8 @@
 #ifndef ODROIDGPIO_PINDATABASE_HPP
 #define ODROIDGPIO_PINDATABASE_HPP
 
-#include <memory>
 #include <odroid/BasePin.hpp>
 #include <unordered_map>
-#include <variant>
 
 namespace gpio {
 class PinDatabase

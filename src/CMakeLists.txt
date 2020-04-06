@@ -6,7 +6,9 @@ add_library(odroidgpio
         digital/digital.cpp
         digital/DigitalPin.cpp
         pwm/pwm.cpp
-        pwm/PWMPin.cpp)
+        pwm/PWMPin.cpp
+        serial/SerialPort.cpp
+        serial/serial.cpp)
 
 target_link_libraries(odroidgpio
         PUBLIC wiringPi
