@@ -1,12 +1,13 @@
 add_library(odroidgpio
         SHARED
-        PinDatabase.cpp
         BasePin.cpp
+        PinDatabase.cpp
         gpio.cpp
-        digital/digital.cpp
+
         digital/DigitalPin.cpp
-        pwm/pwm.cpp
+        digital/digital.cpp
         pwm/PWMPin.cpp
+        pwm/pwm.cpp
         serial/SerialPort.cpp
         serial/serial.cpp)
 

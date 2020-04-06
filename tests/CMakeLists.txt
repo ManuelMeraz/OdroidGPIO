@@ -1,4 +1,7 @@
-list(APPEND tests test_digital_pin test_pwm_pin)
+list(APPEND tests
+        test_digital_pin
+        test_pwm_pin
+        test_serial_port)
 
 foreach(test IN LISTS tests)
     add_executable(${test} ${test}.cpp ../include/odroid/serial/SerialPort.hpp ../include/odroid/serial/serial.hpp)
