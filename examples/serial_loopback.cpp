@@ -1,6 +1,8 @@
 #include <iostream>
 #include <odroid/gpio.hpp>
 
+// These pins actually aren't needed to do serial communication, but for code safety
+// It prevents these pins from being enabled by accident
 constexpr uint8_t RX_PIN{16}; // physical pin 10 on odroid n2
 constexpr uint8_t TX_PIN{15}; // physical pin 8 on odroid n2
 
