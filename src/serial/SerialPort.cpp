@@ -72,7 +72,7 @@ auto gpio::serial::SerialPort::read() const -> std::string
 {
    std::stringstream ss;
    while (gpio::serial::data_available(m_file_descriptor)) {
-      ss << gpio::serial::read_byte(m_file_descriptor);
+      ss << gpio::serial::read_char(m_file_descriptor);
    }
 
    return ss.str();

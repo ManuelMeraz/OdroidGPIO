@@ -18,6 +18,7 @@ auto main() -> int
    auto& serial_port = serial::SerialPort::get(RX_PIN, TX_PIN, DEVICE_NAME, BAUD_RATE);
 
    serial_port.write("hello");
+   gpio::sleep(std::chrono::seconds(1));
    std::cout << serial_port.read() << std::endl;
    return 0;
 }

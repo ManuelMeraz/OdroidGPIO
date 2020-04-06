@@ -10,7 +10,7 @@ void close(int file_descriptor);
 void clear(int file_descriptor);
 void write_byte(int file_descriptor, uint8_t byte);
 void write(int file_descriptor, const std::string& message);
-auto read_byte(int file_descriptor) -> int;
+auto read_char(int file_descriptor) -> char;
 void print(int file_descriptor, const std::string& message);
 auto data_available(int file_descriptor) -> bool;
 } // namespace gpio::serial
