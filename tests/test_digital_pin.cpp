@@ -9,7 +9,7 @@ auto main() -> int
 
    namespace digital = gpio::digital;
    auto& digital_pin = gpio::get<digital::DigitalPin>(10, digital::Mode::OUTPUT);
-   digital_pin.write(digital::Write::LOW);
+   digital_pin.write(digital::IO::LOW);
 
    std::cout << "mode: " << static_cast<int>(digital_pin.mode()) << std::endl;
    std::cout << "pin_number: " << static_cast<int>(digital_pin.pin_number()) << std::endl;

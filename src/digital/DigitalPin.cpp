@@ -1,4 +1,5 @@
 
+#include <detail/digital/digital.hpp>
 #include <detail/gpio.hpp>
 #include <odroid/digital/DigitalPin.hpp>
 #include <wiringPi.h>
@@ -25,7 +26,12 @@ void gpio::digital::DigitalPin::mode(Mode mode)
    gpio::pin_mode(m_pin_number, static_cast<uint16_t>(m_mode));
 }
 
-void gpio::digital::DigitalPin::write(Write mode)
+auto gpio::digital::DigitalPin::read() const -> gpio::digital::IO
 {
-   digitalWrite(m_pin_number, static_cast<int>(mode));
+   return gpio::digital::read(m_pin_number);
+}
+
+void gpio::digital::DigitalPin::write(IO mode)
+{
+   gpio::digital::write(m_pin_number, mode);
 }

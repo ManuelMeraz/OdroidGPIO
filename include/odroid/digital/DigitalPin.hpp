@@ -20,7 +20,9 @@ class DigitalPin final : public BasePin
 
    [[nodiscard]] auto mode() const -> Mode;
    void mode(Mode mode);
-   void write(Write mode);
+
+   [[nodiscard]] auto read() const -> IO;
+   void write(IO mode);
 
  private:
    friend class ::gpio::PinDatabase;
