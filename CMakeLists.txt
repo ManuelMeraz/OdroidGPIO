@@ -8,6 +8,7 @@ include(cmake/Setup.cmake)
 
 # Create odroidgpio target and library
 add_subdirectory(src)
+add_subdirectory(examples)
 
 # only test if building as main project
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)

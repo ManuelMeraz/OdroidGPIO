@@ -4,7 +4,7 @@ list(APPEND tests
         test_serial_port)
 
 foreach(test IN LISTS tests)
-    add_executable(${test} ${test}.cpp ../include/odroid/serial/SerialPort.hpp)
+    add_executable(${test} ${test}.cpp)
     add_test(NAME ${test} COMMAND ${test})
     target_link_libraries(${test} PRIVATE odroidgpio)
 endforeach()
