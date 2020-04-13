@@ -14,10 +14,10 @@ class SerialPort
    auto operator=(SerialPort &&) -> SerialPort& = delete;
    ~SerialPort();
 
-   [[nodiscard]] static auto get(std::optional<uint16_t> rx_pin,
-                                 std::optional<uint16_t> tx_pin,
-                                 std::optional<std::string> device_name,
-                                 std::optional<uint32_t> baud_rate) -> SerialPort&;
+   [[nodiscard]] static auto get(std::optional<uint16_t> rx_pin = std::nullopt,
+                                 std::optional<uint16_t> tx_pin = std::nullopt,
+                                 std::optional<std::string> device_name = std::nullopt,
+                                 std::optional<uint32_t> baud_rate = std::nullopt) -> SerialPort&;
 
    [[nodiscard]] auto read() const -> std::string;
    void write(const std::string& message);
