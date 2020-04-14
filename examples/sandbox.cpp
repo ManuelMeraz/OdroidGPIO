@@ -1,318 +1,107 @@
 #include <chrono>
 #include <cstring>
 #include <iostream>
+#include <odroid/gpio.hpp>
 #include <thread>
-#include <wiringPi.h>
-#include <wiringPiI2C.h>
 
-typedef enum {
+enum adafruit_bno055_reg_t {
    /* Page id register definition */
    BNO055_PAGE_ID_ADDR = 0X07,
 
    /* PAGE0 REGISTER DEFINITION START*/
    BNO055_CHIP_ID_ADDR = 0x00,
-   BNO055_ACCEL_REV_ID_ADDR = 0x01,
-   BNO055_MAG_REV_ID_ADDR = 0x02,
-   BNO055_GYRO_REV_ID_ADDR = 0x03,
-   BNO055_SW_REV_ID_LSB_ADDR = 0x04,
-   BNO055_SW_REV_ID_MSB_ADDR = 0x05,
-   BNO055_BL_REV_ID_ADDR = 0X06,
-
-   /* Accel data register */
-   BNO055_ACCEL_DATA_X_LSB_ADDR = 0X08,
-   BNO055_ACCEL_DATA_X_MSB_ADDR = 0X09,
-   BNO055_ACCEL_DATA_Y_LSB_ADDR = 0X0A,
-   BNO055_ACCEL_DATA_Y_MSB_ADDR = 0X0B,
-   BNO055_ACCEL_DATA_Z_LSB_ADDR = 0X0C,
-   BNO055_ACCEL_DATA_Z_MSB_ADDR = 0X0D,
-
-   /* Mag data register */
-   BNO055_MAG_DATA_X_LSB_ADDR = 0X0E,
-   BNO055_MAG_DATA_X_MSB_ADDR = 0X0F,
-   BNO055_MAG_DATA_Y_LSB_ADDR = 0X10,
-   BNO055_MAG_DATA_Y_MSB_ADDR = 0X11,
-   BNO055_MAG_DATA_Z_LSB_ADDR = 0X12,
-   BNO055_MAG_DATA_Z_MSB_ADDR = 0X13,
-
-   /* Gyro data registers */
-   BNO055_GYRO_DATA_X_LSB_ADDR = 0X14,
-   BNO055_GYRO_DATA_X_MSB_ADDR = 0X15,
-   BNO055_GYRO_DATA_Y_LSB_ADDR = 0X16,
-   BNO055_GYRO_DATA_Y_MSB_ADDR = 0X17,
-   BNO055_GYRO_DATA_Z_LSB_ADDR = 0X18,
-   BNO055_GYRO_DATA_Z_MSB_ADDR = 0X19,
-
-   /* Euler data registers */
-   BNO055_EULER_H_LSB_ADDR = 0X1A,
-   BNO055_EULER_H_MSB_ADDR = 0X1B,
-   BNO055_EULER_R_LSB_ADDR = 0X1C,
-   BNO055_EULER_R_MSB_ADDR = 0X1D,
-   BNO055_EULER_P_LSB_ADDR = 0X1E,
-   BNO055_EULER_P_MSB_ADDR = 0X1F,
-
-   /* Quaternion data registers */
-   BNO055_QUATERNION_DATA_W_LSB_ADDR = 0X20,
-   BNO055_QUATERNION_DATA_W_MSB_ADDR = 0X21,
-   BNO055_QUATERNION_DATA_X_LSB_ADDR = 0X22,
-   BNO055_QUATERNION_DATA_X_MSB_ADDR = 0X23,
-   BNO055_QUATERNION_DATA_Y_LSB_ADDR = 0X24,
-   BNO055_QUATERNION_DATA_Y_MSB_ADDR = 0X25,
-   BNO055_QUATERNION_DATA_Z_LSB_ADDR = 0X26,
-   BNO055_QUATERNION_DATA_Z_MSB_ADDR = 0X27,
 
    /* Linear acceleration data registers */
    BNO055_LINEAR_ACCEL_DATA_X_LSB_ADDR = 0X28,
-   BNO055_LINEAR_ACCEL_DATA_X_MSB_ADDR = 0X29,
-   BNO055_LINEAR_ACCEL_DATA_Y_LSB_ADDR = 0X2A,
-   BNO055_LINEAR_ACCEL_DATA_Y_MSB_ADDR = 0X2B,
-   BNO055_LINEAR_ACCEL_DATA_Z_LSB_ADDR = 0X2C,
-   BNO055_LINEAR_ACCEL_DATA_Z_MSB_ADDR = 0X2D,
-
-   /* Gravity data registers */
-   BNO055_GRAVITY_DATA_X_LSB_ADDR = 0X2E,
-   BNO055_GRAVITY_DATA_X_MSB_ADDR = 0X2F,
-   BNO055_GRAVITY_DATA_Y_LSB_ADDR = 0X30,
-   BNO055_GRAVITY_DATA_Y_MSB_ADDR = 0X31,
-   BNO055_GRAVITY_DATA_Z_LSB_ADDR = 0X32,
-   BNO055_GRAVITY_DATA_Z_MSB_ADDR = 0X33,
-
-   /* Temperature data register */
-   BNO055_TEMP_ADDR = 0X34,
-
-   /* Status registers */
-   BNO055_CALIB_STAT_ADDR = 0X35,
-   BNO055_SELFTEST_RESULT_ADDR = 0X36,
-   BNO055_INTR_STAT_ADDR = 0X37,
-
-   BNO055_SYS_CLK_STAT_ADDR = 0X38,
-   BNO055_SYS_STAT_ADDR = 0X39,
-   BNO055_SYS_ERR_ADDR = 0X3A,
-
-   /* Unit selection register */
-   BNO055_UNIT_SEL_ADDR = 0X3B,
-   BNO055_DATA_SELECT_ADDR = 0X3C,
 
    /* Mode registers */
    BNO055_OPR_MODE_ADDR = 0X3D,
    BNO055_PWR_MODE_ADDR = 0X3E,
 
    BNO055_SYS_TRIGGER_ADDR = 0X3F,
-   BNO055_TEMP_SOURCE_ADDR = 0X40,
-
-   /* Axis remap registers */
-   BNO055_AXIS_MAP_CONFIG_ADDR = 0X41,
-   BNO055_AXIS_MAP_SIGN_ADDR = 0X42,
-
-   /* SIC registers */
-   BNO055_SIC_MATRIX_0_LSB_ADDR = 0X43,
-   BNO055_SIC_MATRIX_0_MSB_ADDR = 0X44,
-   BNO055_SIC_MATRIX_1_LSB_ADDR = 0X45,
-   BNO055_SIC_MATRIX_1_MSB_ADDR = 0X46,
-   BNO055_SIC_MATRIX_2_LSB_ADDR = 0X47,
-   BNO055_SIC_MATRIX_2_MSB_ADDR = 0X48,
-   BNO055_SIC_MATRIX_3_LSB_ADDR = 0X49,
-   BNO055_SIC_MATRIX_3_MSB_ADDR = 0X4A,
-   BNO055_SIC_MATRIX_4_LSB_ADDR = 0X4B,
-   BNO055_SIC_MATRIX_4_MSB_ADDR = 0X4C,
-   BNO055_SIC_MATRIX_5_LSB_ADDR = 0X4D,
-   BNO055_SIC_MATRIX_5_MSB_ADDR = 0X4E,
-   BNO055_SIC_MATRIX_6_LSB_ADDR = 0X4F,
-   BNO055_SIC_MATRIX_6_MSB_ADDR = 0X50,
-   BNO055_SIC_MATRIX_7_LSB_ADDR = 0X51,
-   BNO055_SIC_MATRIX_7_MSB_ADDR = 0X52,
-   BNO055_SIC_MATRIX_8_LSB_ADDR = 0X53,
-   BNO055_SIC_MATRIX_8_MSB_ADDR = 0X54,
-
-   /* Accelerometer Offset registers */
-   ACCEL_OFFSET_X_LSB_ADDR = 0X55,
-   ACCEL_OFFSET_X_MSB_ADDR = 0X56,
-   ACCEL_OFFSET_Y_LSB_ADDR = 0X57,
-   ACCEL_OFFSET_Y_MSB_ADDR = 0X58,
-   ACCEL_OFFSET_Z_LSB_ADDR = 0X59,
-   ACCEL_OFFSET_Z_MSB_ADDR = 0X5A,
-
-   /* Magnetometer Offset registers */
-   MAG_OFFSET_X_LSB_ADDR = 0X5B,
-   MAG_OFFSET_X_MSB_ADDR = 0X5C,
-   MAG_OFFSET_Y_LSB_ADDR = 0X5D,
-   MAG_OFFSET_Y_MSB_ADDR = 0X5E,
-   MAG_OFFSET_Z_LSB_ADDR = 0X5F,
-   MAG_OFFSET_Z_MSB_ADDR = 0X60,
-
-   /* Gyroscope Offset register s*/
-   GYRO_OFFSET_X_LSB_ADDR = 0X61,
-   GYRO_OFFSET_X_MSB_ADDR = 0X62,
-   GYRO_OFFSET_Y_LSB_ADDR = 0X63,
-   GYRO_OFFSET_Y_MSB_ADDR = 0X64,
-   GYRO_OFFSET_Z_LSB_ADDR = 0X65,
-   GYRO_OFFSET_Z_MSB_ADDR = 0X66,
-
-   /* Radius registers */
-   ACCEL_RADIUS_LSB_ADDR = 0X67,
-   ACCEL_RADIUS_MSB_ADDR = 0X68,
-   MAG_RADIUS_LSB_ADDR = 0X69,
-   MAG_RADIUS_MSB_ADDR = 0X6A
-} adafruit_bno055_reg_t;
+};
 
 /** BNO055 power settings */
-typedef enum {
+enum adafruit_bno055_powermode_t {
    POWER_MODE_NORMAL = 0X00,
-   POWER_MODE_LOWPOWER = 0X01,
-   POWER_MODE_SUSPEND = 0X02
-} adafruit_bno055_powermode_t;
+};
 
 /** Operation mode settings **/
-typedef enum {
-   OPERATION_MODE_CONFIG = 0X00,
-   OPERATION_MODE_ACCONLY = 0X01,
-   OPERATION_MODE_MAGONLY = 0X02,
-   OPERATION_MODE_GYRONLY = 0X03,
-   OPERATION_MODE_ACCMAG = 0X04,
-   OPERATION_MODE_ACCGYRO = 0X05,
-   OPERATION_MODE_MAGGYRO = 0X06,
-   OPERATION_MODE_AMG = 0X07,
-   OPERATION_MODE_IMUPLUS = 0X08,
-   OPERATION_MODE_COMPASS = 0X09,
-   OPERATION_MODE_M4G = 0X0A,
-   OPERATION_MODE_NDOF_FMC_OFF = 0X0B,
-   OPERATION_MODE_NDOF = 0X0C
-} adafruit_bno055_opmode_t;
-
-/** Remap settings **/
-typedef enum {
-   REMAP_CONFIG_P0 = 0x21,
-   REMAP_CONFIG_P1 = 0x24, // default
-   REMAP_CONFIG_P2 = 0x24,
-   REMAP_CONFIG_P3 = 0x21,
-   REMAP_CONFIG_P4 = 0x24,
-   REMAP_CONFIG_P5 = 0x21,
-   REMAP_CONFIG_P6 = 0x21,
-   REMAP_CONFIG_P7 = 0x24
-} adafruit_bno055_axis_remap_config_t;
-
-/** Remap Signs **/
-typedef enum {
-   REMAP_SIGN_P0 = 0x04,
-   REMAP_SIGN_P1 = 0x00, // default
-   REMAP_SIGN_P2 = 0x06,
-   REMAP_SIGN_P3 = 0x02,
-   REMAP_SIGN_P4 = 0x03,
-   REMAP_SIGN_P5 = 0x01,
-   REMAP_SIGN_P6 = 0x07,
-   REMAP_SIGN_P7 = 0x05
-} adafruit_bno055_axis_remap_sign_t;
-
-/** A structure to represent revisions **/
-typedef struct
-{
-   uint8_t accel_rev; /**< acceleration rev */
-   uint8_t mag_rev;   /**< magnetometer rev */
-   uint8_t gyro_rev;  /**< gyroscrope rev */
-   uint16_t sw_rev;   /**< SW rev */
-   uint8_t bl_rev;    /**< bootloader rev */
-} adafruit_bno055_rev_info_t;
+enum adafruit_bno055_opmode_t { OPERATION_MODE_CONFIG = 0X00, OPERATION_MODE_NDOF = 0X0C };
 
 /** Vector Mappings **/
-typedef enum {
-   VECTOR_ACCELEROMETER = BNO055_ACCEL_DATA_X_LSB_ADDR,
-   VECTOR_MAGNETOMETER = BNO055_MAG_DATA_X_LSB_ADDR,
-   VECTOR_GYROSCOPE = BNO055_GYRO_DATA_X_LSB_ADDR,
-   VECTOR_EULER = BNO055_EULER_H_LSB_ADDR,
+enum adafruit_vector_type_t {
    VECTOR_LINEARACCEL = BNO055_LINEAR_ACCEL_DATA_X_LSB_ADDR,
-   VECTOR_GRAVITY = BNO055_GRAVITY_DATA_X_LSB_ADDR
-} adafruit_vector_type_t;
+};
 
-#define DEVICE_ID 2
-#define REG_POWER_CTL 0x2D
-#define REG_DATA_X_LOW 0x32
-#define REG_DATA_X_HIGH 0x33
-#define REG_DATA_Y_LOW 0x34
-#define REG_DATA_Y_HIGH 0x35
-#define REG_DATA_Z_LOW 0x36
-#define REG_DATA_Z_HIGH 0x37
-/** BNO055 ID **/
-#define BNO055_ID (0xA0)
+// device ID for odroid n2
+constexpr uint32_t DEVICE_ID = 0x28;
+
+constexpr uint32_t BNO055_ID = 0xA0;
+
+using namespace std::chrono_literals;
 
 int main()
 {
-   // Setup I2C communication
-   int fd = wiringPiI2CSetup(0x28);
-   if (fd == -1) {
-      std::cout << "Failed to init I2C communication.\n";
-      return -1;
-   }
+   auto& device = gpio::I2C::I2CDevice::get(DEVICE_ID);
    std::cout << "I2C communication successfully setup.\n";
 
-   uint8_t id = wiringPiI2CReadReg8(fd, BNO055_CHIP_ID_ADDR);
+   uint8_t id = device.read_8_bits(BNO055_CHIP_ID_ADDR);
    if (id != BNO055_ID) {
-      delay(1000); // hold on for boot
-      id = wiringPiI2CReadReg8(fd, BNO055_CHIP_ID_ADDR);
+      gpio::sleep(1s); // hold on for boot
+      id = device.read_8_bits(BNO055_CHIP_ID_ADDR);
       if (id != BNO055_ID) {
          std::cerr << "Couldn't verify that this was the right device" << std::endl;
          std::cerr << "Valid id: " << BNO055_ID << " got id: " << static_cast<uint32_t>(id)
                    << std::endl;
-         return 1; // still not? ok bail
+         return 1;
       }
    }
 
    // Switch device to measurement mode
-   wiringPiI2CWriteReg8(fd, BNO055_OPR_MODE_ADDR, OPERATION_MODE_CONFIG);
+   device.write_8_bits(BNO055_OPR_MODE_ADDR, OPERATION_MODE_CONFIG);
    /* Make sure we have the right device */
 
    /* Reset */
-   wiringPiI2CWriteReg8(fd, BNO055_SYS_TRIGGER_ADDR, 0x20);
+   device.write_8_bits(BNO055_SYS_TRIGGER_ADDR, 0x20);
    /* Delay incrased to 30ms due to power issues https://tinyurl.com/y375z699 */
-   delay(30);
-   while (wiringPiI2CReadReg8(fd, BNO055_CHIP_ID_ADDR) != BNO055_ID) {
-      delay(10);
+   gpio::sleep(30ms);
+
+   while (device.read_8_bits(BNO055_CHIP_ID_ADDR) != BNO055_ID) {
+      gpio::sleep(10ms);
    }
 
-   delay(50);
+   gpio::sleep(50ms);
 
    /* Set to normal power mode */
-   wiringPiI2CWriteReg8(fd, BNO055_PWR_MODE_ADDR, POWER_MODE_NORMAL);
-   delay(10);
+   device.write_8_bits(BNO055_PWR_MODE_ADDR, POWER_MODE_NORMAL);
+   gpio::sleep(10ms);
 
-   wiringPiI2CWriteReg8(fd, BNO055_PAGE_ID_ADDR, 0);
+   device.write_8_bits(BNO055_PAGE_ID_ADDR, 0);
 
-   /* Set the output units */
-   /*
-   uint8_t unitsel = (0 << 7) | // Orientation = Android
-                     (0 << 4) | // Temperature = Celsius
-                     (0 << 2) | // Euler = Degrees
-                     (1 << 1) | // Gyro = Rads
-                     (0 << 0);  // Accelerometer = m/s^2
-   write8(BNO055_UNIT_SEL_ADDR, unitsel);
-   */
-
-   /* Configure axis mapping (see section 3.4) */
-   /*
-   write8(BNO055_AXIS_MAP_CONFIG_ADDR, REMAP_CONFIG_P2); // P0-P7, Default is P1
-   delay(10);
-   write8(BNO055_AXIS_MAP_SIGN_ADDR, REMAP_SIGN_P2); // P0-P7, Default is P1
-   delay(10);
-   */
-
-   wiringPiI2CWriteReg8(fd, BNO055_SYS_TRIGGER_ADDR, 0x0);
-   delay(10);
+   device.write_8_bits(BNO055_SYS_TRIGGER_ADDR, 0x0);
+   gpio::sleep(10ms);
    /* Set the requested operating mode (see section 3.3) */
-   wiringPiI2CWriteReg8(fd, BNO055_OPR_MODE_ADDR, OPERATION_MODE_NDOF);
-   delay(20);
+   device.write_8_bits(BNO055_OPR_MODE_ADDR, OPERATION_MODE_NDOF);
+   gpio::sleep(20ms);
 
+   struct Vector3
+   {
+      int16_t x{};
+      int16_t y{};
+      int16_t z{};
+   } acceleration{0, 0, 0};
+
+   constexpr size_t BUFFER_SIZE = 6;
    while (true) {
-      uint8_t buffer[6];
-      memset(buffer, 0, 6);
 
-      int16_t x, y, z;
-      x = y = z = 0;
+      const auto data = device.read<BUFFER_SIZE>(VECTOR_LINEARACCEL);
+      acceleration.x = static_cast<uint16_t>(data[0]) | static_cast<uint16_t>(data[1] << 8u);
+      acceleration.y = static_cast<uint16_t>(data[2]) | static_cast<uint16_t>(data[3] << 8u);
+      acceleration.z = static_cast<uint16_t>(data[4]) | static_cast<uint16_t>(data[5] << 8u);
 
-      /* Read quat data (8 bytes) */
-      wiringPiI2CReadBlock(fd, VECTOR_LINEARACCEL, buffer, 6);
-      x = ((int16_t)buffer[0]) | (((int16_t)buffer[1]) << 8);
-      y = ((int16_t)buffer[2]) | (((int16_t)buffer[3]) << 8);
-      z = ((int16_t)buffer[4]) | (((int16_t)buffer[5]) << 8);
-
-      std::cout << "x: " << x << ", y: " << y << ", z: " << z << "\n";
+      std::cout << "x: " << acceleration.x << ", y: " << acceleration.y << ", z: " << acceleration.z
+                << "\n";
       std::this_thread::sleep_for(std::chrono::milliseconds(100));
    }
    return 0;

@@ -17,8 +17,8 @@ class I2CDevice
    ~I2CDevice() = default;
 
    [[nodiscard]] static auto get(std::optional<uint8_t> device_number,
-                                 std::optional<uint16_t> sda_pin,
-                                 std::optional<uint16_t> scl_pin) -> I2CDevice&;
+                                 std::optional<uint16_t> sda_pin = 0,
+                                 std::optional<uint16_t> scl_pin = 0) -> I2CDevice&;
 
    [[nodiscard]] auto read_8_bits(uint32_t register_address) const -> uint8_t;
    [[nodiscard]] auto read_16_bits(uint32_t register_address) const -> uint16_t;
