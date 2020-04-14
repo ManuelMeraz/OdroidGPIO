@@ -22,7 +22,7 @@ auto main() -> int
       return 1;
    }
 
-   auto& serial_port = serial::SerialPort::get(RX_PIN, TX_PIN, DEVICE_NAME, BAUD_RATE);
+   auto& serial_port = serial::SerialPort::get(DEVICE_NAME, BAUD_RATE, RX_PIN, TX_PIN);
 
    serial_port.write("This is the serial loopback mesage!");
    gpio::sleep(std::chrono::milliseconds(10));

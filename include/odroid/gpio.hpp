@@ -3,6 +3,7 @@
 
 #include "BasePin.hpp"
 #include "PinDatabase.hpp"
+#include "odroid/I2C/I2CDevice.hpp"
 #include "odroid/digital/DigitalPin.hpp"
 #include "odroid/digital/digital.hpp"
 #include "odroid/pwm/PWMPin.hpp"

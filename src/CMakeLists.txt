@@ -15,7 +15,7 @@ add_library(odroidgpio
 
 target_link_libraries(odroidgpio
         PUBLIC wiringPi
-        PRIVATE Threads::Threads rt crypt)
+        Threads::Threads rt crypt)
 
 target_include_directories(odroidgpio
         PUBLIC

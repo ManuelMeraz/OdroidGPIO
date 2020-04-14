@@ -19,10 +19,10 @@ struct SerialPortDeleter
 std::unique_ptr<gpio::serial::SerialPort, SerialPortDeleter> g_serial_port{nullptr};
 } // namespace
 
-gpio::serial::SerialPort::SerialPort(uint16_t rx_pin_number,
-                                     uint16_t tx_pin_number,
-                                     std::string device_name,
-                                     uint32_t baud_rate) :
+gpio::serial::SerialPort::SerialPort(std::string device_name,
+                                     uint32_t baud_rate,
+                                     uint16_t rx_pin_number,
+                                     uint16_t tx_pin_number) :
    m_rx_pin(gpio::get<BasePin>(rx_pin_number)),
    m_tx_pin(gpio::get<BasePin>(tx_pin_number)),
    m_device_name(std::move(device_name)),
@@ -36,21 +36,13 @@ gpio::serial::SerialPort::~SerialPort()
    gpio::serial::close(m_file_descriptor);
 }
 
-auto gpio::serial::SerialPort::get(std::optional<uint16_t> rx_pin,
-                                   std::optional<uint16_t> tx_pin,
-                                   std::optional<std::string> device_name,
-                                   std::optional<uint32_t> baud_rate) -> gpio::serial::SerialPort&
+auto gpio::serial::SerialPort::get(std::optional<std::string> device_name,
+                                   std::optional<uint32_t> baud_rate,
+                                   std::optional<uint16_t> rx_pin,
+                                   std::optional<uint16_t> tx_pin) -> gpio::serial::SerialPort&
 {
    if (g_serial_port == nullptr) {
-      if (!rx_pin || !tx_pin || !device_name || !baud_rate) {
-         if (!rx_pin) {
-            std::cerr << "Missing rx pin from argument" << std::endl;
-         }
-
-         if (!tx_pin) {
-            std::cerr << "Missing tx pin from argument" << std::endl;
-         }
-
+      if (!device_name or !baud_rate) {
          if (!device_name) {
             std::cerr << "Missing device name from argument" << std::endl;
          }
@@ -62,7 +54,7 @@ auto gpio::serial::SerialPort::get(std::optional<uint16_t> rx_pin,
          throw std::invalid_argument("Need rx pin, tx pin, and device name to get serial port");
       }
 
-      g_serial_port.reset(new gpio::serial::SerialPort(*rx_pin, *tx_pin, *device_name, *baud_rate));
+      g_serial_port.reset(new gpio::serial::SerialPort(*device_name, *baud_rate, *rx_pin, *tx_pin));
    }
 
    return *g_serial_port;
