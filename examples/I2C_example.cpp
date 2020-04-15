@@ -109,16 +109,16 @@ auto main() -> int
 
    Vector3 acceleration{};
 
-   constexpr size_t VECTOR_SYZE = sizeof(Vector3); // 6 bytes
+   constexpr size_t VECTOR_SIZE = sizeof(Vector3); // 6 bytes
    while (true) {
-      /* Array of data of size 6 */
-      auto linear_acceleration_data = device.read<VECTOR_SYZE>(VECTOR_LINEARACCEL);
+      /* Array of byte data of size 6 */
+      auto linear_acceleration_data = device.read<VECTOR_SIZE>(VECTOR_LINEARACCEL);
 
       /* Map data onto the vector */
       acceleration = *reinterpret_cast<Vector3*>(&linear_acceleration_data[0]);
 
       std::cout << "x: " << acceleration.x << ", y: " << acceleration.y << ", z: " << acceleration.z
-                << "\n";
+                << std::endl;
       gpio::sleep(100ms);
    }
 
