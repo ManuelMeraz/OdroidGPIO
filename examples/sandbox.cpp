@@ -4,6 +4,7 @@
 #include <odroid/gpio.hpp>
 #include <thread>
 
+/* These enums are straight out of the adafruit_bno055 header file */
 enum adafruit_bno055_reg_t {
    /* Page id register definition */
    BNO055_PAGE_ID_ADDR = 0X07,
@@ -87,19 +88,19 @@ int main()
 
    struct Vector3
    {
-      int16_t x{};
-      int16_t y{};
-      int16_t z{};
+      int16_t x;
+      int16_t y;
+      int16_t z;
    } acceleration{0, 0, 0};
 
    constexpr size_t BUFFER_SIZE = 6;
    while (true) {
-
-      const auto data = device.read<BUFFER_SIZE>(VECTOR_LINEARACCEL);
-      acceleration.x = static_cast<uint16_t>(data[0]) | static_cast<uint16_t>(data[1] << 8u);
-      acceleration.y = static_cast<uint16_t>(data[2]) | static_cast<uint16_t>(data[3] << 8u);
-      acceleration.z = static_cast<uint16_t>(data[4]) | static_cast<uint16_t>(data[5] << 8u);
-
+      auto data = device.read<BUFFER_SIZE>(VECTOR_LINEARACCEL);
+      acceleration = *reinterpret_cast<Vector3*>(&data[0]);
+      //      acceleration.x = static_cast<uint16_t>(data[0]) | static_cast<uint16_t>(data[1] <<
+      //      8u); acceleration.y = static_cast<uint16_t>(data[2]) | static_cast<uint16_t>(data[3]
+      //      << 8u); acceleration.z = static_cast<uint16_t>(data[4]) |
+      //      static_cast<uint16_t>(data[5] << 8u);
       std::cout << "x: " << acceleration.x << ", y: " << acceleration.y << ", z: " << acceleration.z
                 << "\n";
       std::this_thread::sleep_for(std::chrono::milliseconds(100));

@@ -53,7 +53,7 @@ auto gpio::I2C::I2CDevice::read_16_bits(uint32_t register_address) const -> uint
    return gpio::I2C::read_16_bits(m_file_descriptor, register_address);
 }
 
-void gpio::I2C::I2CDevice::write_8_bits(uint8_t data, uint32_t register_address)
+void gpio::I2C::I2CDevice::write_8_bits(uint32_t register_address, uint8_t data)
 {
    gpio::I2C::write_8_bits(m_file_descriptor, data, register_address);
 }

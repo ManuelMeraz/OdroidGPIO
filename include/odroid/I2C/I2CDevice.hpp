@@ -22,7 +22,7 @@ class I2CDevice
 
    [[nodiscard]] auto read_8_bits(uint32_t register_address) const -> uint8_t;
    [[nodiscard]] auto read_16_bits(uint32_t register_address) const -> uint16_t;
-   void write_8_bits(uint8_t data, uint32_t register_address);
+   void write_8_bits(uint32_t register_address, uint8_t data);
    void write_16_bits(uint16_t data, uint32_t register_address);
 
    template <size_t num_bytes>
