@@ -1,8 +1,5 @@
-#include <chrono>
-#include <cstring>
 #include <iostream>
 #include <odroid/gpio.hpp>
-#include <thread>
 
 /* Make sure to set your I2C device to 100 khz for bno055 compatibility */
 
@@ -122,7 +119,8 @@ auto main() -> int
 
       std::cout << "x: " << acceleration.x << ", y: " << acceleration.y << ", z: " << acceleration.z
                 << "\n";
-      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      gpio::sleep(100ms);
    }
+
    return 0;
 }
