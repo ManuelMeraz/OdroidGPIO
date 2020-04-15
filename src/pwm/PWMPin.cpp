@@ -1,10 +1,15 @@
 #include <detail/gpio.hpp>
 #include <detail/pwm/pwm.hpp>
 #include <iostream>
+#include <odroid/gpio.hpp>
 #include <odroid/pwm/PWMPin.hpp>
 
 gpio::pwm::PWMPin::PWMPin(uint16_t pin_number, Mode mode) : BasePin(pin_number), m_mode(mode)
 {
+   if (!gpio::setup()) {
+      throw std::runtime_error("Failed to initialize gpio");
+   }
+
    gpio::pin_mode(pin_number, static_cast<uint16_t>(m_mode));
    duty_cycle(0);
 }

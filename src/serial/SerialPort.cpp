@@ -28,7 +28,11 @@ gpio::serial::SerialPort::SerialPort(std::string device_name,
    m_device_name(std::move(device_name)),
    m_baud_rate(baud_rate),
    m_file_descriptor(gpio::serial::open(m_device_name, m_baud_rate))
-{}
+{
+   if (!gpio::setup()) {
+      throw std::runtime_error("Failed to initialize gpio");
+   }
+}
 
 gpio::serial::SerialPort::~SerialPort()
 {

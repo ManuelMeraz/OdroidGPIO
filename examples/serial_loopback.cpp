@@ -12,10 +12,6 @@ namespace serial = gpio::serial;
 using namespace std::chrono_literals;
 auto main() -> int
 {
-   if (!gpio::setup()) {
-      return 1;
-   }
-
    auto& serial_port = serial::SerialPort::get(DEVICE_NAME, BAUD_RATE);
 
    serial_port.write("This is the serial loopback mesage!");

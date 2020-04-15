@@ -2,11 +2,16 @@
 #include <detail/digital/digital.hpp>
 #include <detail/gpio.hpp>
 #include <odroid/digital/DigitalPin.hpp>
+#include <odroid/gpio.hpp>
 #include <wiringPi.h>
 
 gpio::digital::DigitalPin::DigitalPin(uint16_t pin_number, Mode mode) :
    BasePin(pin_number), m_mode(mode)
 {
+   if (!gpio::setup()) {
+      throw std::runtime_error("Failed to initialize gpio");
+   }
+
    gpio::pin_mode(m_pin_number, static_cast<uint16_t>(m_mode));
 }
 
