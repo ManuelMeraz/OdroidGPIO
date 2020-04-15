@@ -9,6 +9,7 @@ constexpr auto DEVICE_NAME{"/dev/ttyS1"};
 constexpr uint32_t BAUD_RATE{115200};
 
 namespace serial = gpio::serial;
+using namespace std::chrono_literals;
 auto main() -> int
 {
    if (!gpio::setup()) {
@@ -18,7 +19,7 @@ auto main() -> int
    auto& serial_port = serial::SerialPort::get(DEVICE_NAME, BAUD_RATE);
 
    serial_port.write("This is the serial loopback mesage!");
-   gpio::sleep(std::chrono::milliseconds(10));
+   gpio::sleep(10ms);
    std::cout << serial_port.read() << std::endl;
    return 0;
 }
