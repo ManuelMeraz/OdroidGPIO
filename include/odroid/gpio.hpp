@@ -2,7 +2,7 @@
 #define ODROIDGPIO_HPP
 
 #include "BasePin.hpp"
-#include "PinDatabase.hpp"
+#include "Database.hpp"
 #include "odroid/I2C/I2CDevice.hpp"
 #include "odroid/digital/DigitalPin.hpp"
 #include "odroid/digital/digital.hpp"
@@ -22,7 +22,7 @@ template <typename Pin,
           typename std::enable_if_t<std::is_base_of_v<BasePin, std::decay_t<Pin>>, int> = 0>
 auto get(uint16_t pin_number, Args&&... args) -> Pin&
 {
-   return PinDatabase::get<Pin>(pin_number, args...);
+   return Database::get<Pin>(pin_number, args...);
 }
 } // namespace gpio
 

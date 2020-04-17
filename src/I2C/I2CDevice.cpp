@@ -5,7 +5,6 @@
 #include <odroid/gpio.hpp>
 #include <wiringPiI2C.h>
 
-
 gpio::I2C::I2CDevice::I2CDevice(uint8_t device_number,
                                 uint16_t sda_pin_number,
                                 uint16_t scl_pin_number) :
@@ -18,7 +17,6 @@ gpio::I2C::I2CDevice::I2CDevice(uint8_t device_number,
 auto gpio::I2C::I2CDevice::get(uint8_t device_number, uint16_t sda_pin, uint16_t scl_pin)
    -> gpio::I2C::I2CDevice&
 {
-
    static I2CDevice device(device_number, sda_pin, scl_pin);
    return device;
 }

@@ -8,6 +8,8 @@
 namespace gpio::I2C {
 class I2CDevice
 {
+   friend class Database;
+
  public:
    I2CDevice() = delete;
    I2CDevice(const I2CDevice&) = delete;

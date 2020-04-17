@@ -6,11 +6,13 @@
 #include <cstdint>
 #include <memory>
 #include <odroid/BasePin.hpp>
-#include <odroid/PinDatabase.hpp>
+#include <odroid/Database.hpp>
 
 namespace gpio::pwm {
 class PWMPin final : public BasePin
 {
+   friend class ::gpio::Database;
+
  public:
    PWMPin() = delete;
    PWMPin(const PWMPin&) = delete;
@@ -23,8 +25,6 @@ class PWMPin final : public BasePin
 
    [[nodiscard]] auto duty_cycle() const -> uint16_t;
    void duty_cycle(uint16_t duty_cycle);
-
-   friend class ::gpio::PinDatabase;
 
  private:
    explicit PWMPin(uint16_t pin_number, Mode mode = Mode::OUTPUT);

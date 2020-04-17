@@ -11,9 +11,9 @@ Installation instructions
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTING=ON ..
-make -j6
+make_pin -j6
 sudo ctest 
-sudo make install
+sudo make_pin install
 ```
 
 In your project you can link to the library using cmake. No need to create your own cmake find package module.

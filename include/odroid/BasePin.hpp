@@ -8,6 +8,8 @@
 namespace gpio {
 class BasePin
 {
+   friend class Database;
+
  public:
    BasePin() = delete;
    BasePin(const BasePin&) = delete;
@@ -16,8 +18,6 @@ class BasePin
    auto operator=(BasePin &&) -> BasePin& = delete;
 
    [[nodiscard]] auto pin_number() const -> uint16_t;
-
-   friend class PinDatabase;
 
  protected:
    explicit BasePin(uint16_t pin_number);

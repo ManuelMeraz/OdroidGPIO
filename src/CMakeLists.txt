@@ -1,7 +1,7 @@
 add_library(odroidgpio
         SHARED
         BasePin.cpp
-        PinDatabase.cpp
+        Database.cpp
         gpio.cpp
 
         digital/DigitalPin.cpp
