@@ -14,7 +14,6 @@ class BasePin
    BasePin(BasePin&&) = delete;
    auto operator=(const BasePin&) -> BasePin& = delete;
    auto operator=(BasePin &&) -> BasePin& = delete;
-   ~BasePin() = default;
 
    [[nodiscard]] auto pin_number() const -> uint16_t;
 
@@ -22,6 +21,7 @@ class BasePin
 
  protected:
    explicit BasePin(uint16_t pin_number);
+   ~BasePin() = default;
 
    [[nodiscard]] auto type() -> std::string_view;
    void type(std::string_view type);

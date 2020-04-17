@@ -8,12 +8,12 @@ void gpio::pwm::duty_cycle(uint16_t pin_number, uint16_t duty_cycle)
    pwmWrite(pin_number, duty_cycle);
 }
 
-void gpio::pwm::clock(uint16_t hz)
+[[maybe_unused]] void gpio::pwm::clock(uint16_t hz)
 {
    pwmSetClock(hz);
 }
 
-void gpio::pwm::range(uint16_t range)
+[[maybe_unused]] void gpio::pwm::range(uint16_t range)
 {
    pwmSetRange(range);
 }

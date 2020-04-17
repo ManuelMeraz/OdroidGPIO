@@ -4,10 +4,10 @@
 #include <cstdint>
 
 namespace gpio::pwm {
-enum class Mode : int { OUTPUT = 4, SOFT_OUTPUT = 6, TONE_OUTPUTOFF = 8, OFF = 0 };
+enum class Mode : int { OUTPUT = 4, OFF = 0 };
 
-void clock(uint16_t hz);
-void range(uint16_t range);
+[[maybe_unused]] void clock(uint16_t hz);
+[[maybe_unused]] void range(uint16_t range);
 } // namespace gpio::pwm
 
 #endif // ODROIDGPIO_PWM_HPP

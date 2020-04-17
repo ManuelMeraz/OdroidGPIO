@@ -17,7 +17,6 @@ class PWMPin final : public BasePin
    PWMPin(PWMPin&&) = delete;
    auto operator=(const PWMPin&) -> PWMPin& = delete;
    auto operator=(PWMPin &&) -> PWMPin& = delete;
-   ~PWMPin();
 
    [[nodiscard]] auto mode() const -> Mode;
    void mode(Mode mode);
@@ -25,13 +24,13 @@ class PWMPin final : public BasePin
    [[nodiscard]] auto duty_cycle() const -> uint16_t;
    void duty_cycle(uint16_t duty_cycle);
 
- private:
    friend class ::gpio::PinDatabase;
 
+ private:
    explicit PWMPin(uint16_t pin_number, Mode mode = Mode::OUTPUT);
+   ~PWMPin();
 
    uint16_t m_duty_cycle{};
-
    Mode m_mode{};
 };
 } // namespace gpio::pwm
