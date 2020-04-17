@@ -5,10 +5,14 @@
 #include <optional>
 #include <wiringPiI2C.h>
 
+namespace gpio {
+class Database;
+} // namespace gpio
+
 namespace gpio::I2C {
 class I2CDevice
 {
-   friend class Database;
+   friend class gpio::Database;
 
  public:
    I2CDevice() = delete;
@@ -16,10 +20,6 @@ class I2CDevice
    I2CDevice(I2CDevice&&) = delete;
    auto operator=(const I2CDevice&) -> I2CDevice& = delete;
    auto operator=(I2CDevice &&) -> I2CDevice& = delete;
-
-   [[nodiscard]] static auto get(uint8_t device_number,
-                                 uint16_t sda_pin_number = 0,
-                                 uint16_t scl_pin_number = 0) -> I2CDevice&;
 
    [[nodiscard]] auto read_8_bits(uint32_t register_address) const -> uint8_t;
    [[maybe_unused]] [[nodiscard]] auto read_16_bits(uint32_t register_address) const -> uint16_t;

@@ -51,10 +51,11 @@ constexpr uint32_t BNO055_ID = 0xA0;
 
 using namespace std::chrono_literals;
 
+namespace I2C = gpio::I2C;
 auto main() -> int
 {
    /* May optionally pass in sda and scl pin number to reserve them for code safety */
-   auto& device = gpio::I2C::I2CDevice::get(DEVICE_ID);
+   auto& device = gpio::get<I2C::I2CDevice>(DEVICE_ID);
    std::cout << "I2C communication successfully setup.\n";
 
    /* Make sure we have the right device */

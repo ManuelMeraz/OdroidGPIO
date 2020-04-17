@@ -3,6 +3,7 @@
 
 #include <nameof/nameof.hpp>
 #include <odroid/BasePin.hpp>
+#include <odroid/I2C/I2CDevice.hpp>
 #include <unordered_map>
 
 namespace gpio {
@@ -31,7 +32,24 @@ class Database
          return static_cast<Pin&>(pin);
       }
 
-      return database.make_pin<Pin>(pin_number, args...);
+      return database.make<Pin>(pin_number, args...);
+   }
+
+   template <typename I2CDevice,
+             typename... Args,
+             typename std::
+                enable_if_t<std::is_same_v<gpio::I2C::I2CDevice, std::decay_t<I2CDevice>>, int> = 0>
+   static auto get(uint8_t device_number, Args&&... args) -> I2CDevice&
+   {
+      auto& database = Database::instance();
+      auto& stored_devices = database.stored_I2C_devices();
+      auto find_device = stored_devices.find(device_number);
+      if (find_device != stored_devices.end()) {
+         auto& device = *find_device->second;
+         return static_cast<I2CDevice&>(device);
+      }
+
+      return database.make<I2CDevice>(device_number, args...);
    }
 
  private:
@@ -40,11 +58,12 @@ class Database
 
    static auto instance() -> Database&;
    auto stored_pins() -> std::unordered_map<uint16_t, BasePin*>&;
+   auto stored_I2C_devices() -> std::unordered_map<uint16_t, gpio::I2C::I2CDevice*>&;
 
    template <typename Pin,
              typename... Args,
              typename std::enable_if_t<std::is_base_of_v<BasePin, std::decay_t<Pin>>, int> = 0>
-   static auto make_pin(uint16_t pin_number, Args&&... args) -> Pin&
+   static auto make(uint16_t pin_number, Args&&... args) -> Pin&
    {
       auto& stored_pins = instance().stored_pins();
       auto* pin = new Pin(pin_number, args...);
@@ -53,7 +72,20 @@ class Database
       return *pin;
    }
 
-   std::unordered_map<uint16_t, BasePin*> m_stored_pins;
+   template <typename I2CDevice,
+             typename... Args,
+             typename std::
+                enable_if_t<std::is_same_v<gpio::I2C::I2CDevice, std::decay_t<I2CDevice>>, int> = 0>
+   static auto make(uint16_t device_number, Args&&... args) -> I2CDevice&
+   {
+      auto& stored_devices = instance().stored_I2C_devices();
+      auto* device = new I2CDevice(device_number, args...);
+      stored_devices.emplace(std::make_pair(device_number, std::move(device)));
+      return *device;
+   }
+
+   std::unordered_map<uint16_t, BasePin*> m_stored_pins{};
+   std::unordered_map<uint16_t, gpio::I2C::I2CDevice*> m_stored_I2C_devices{};
 };
 } // namespace gpio
 

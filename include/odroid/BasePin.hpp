@@ -6,6 +6,8 @@
 #include <string_view>
 
 namespace gpio {
+class Database;
+
 class BasePin
 {
    friend class Database;
