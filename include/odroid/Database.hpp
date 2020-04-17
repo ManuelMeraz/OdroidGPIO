@@ -4,6 +4,7 @@
 #include <nameof/nameof.hpp>
 #include <odroid/BasePin.hpp>
 #include <odroid/I2C/I2CDevice.hpp>
+#include <odroid/serial/SerialPort.hpp>
 #include <unordered_map>
 
 namespace gpio {
@@ -52,6 +53,24 @@ class Database
       return database.make<I2CDevice>(device_number, args...);
    }
 
+   template <
+      typename SerialPort,
+      typename... Args,
+      typename std::enable_if_t<std::is_same_v<gpio::serial::SerialPort, std::decay_t<SerialPort>>,
+                                int> = 0>
+   static auto get(const std::string& device_name, Args&&... args) -> SerialPort&
+   {
+      auto& database = Database::instance();
+      auto& stored_ports = database.stored_serial_ports();
+      auto find_port = stored_ports.find(device_name);
+      if (find_port != stored_ports.end()) {
+         auto& port = *find_port->second;
+         return static_cast<SerialPort&>(port);
+      }
+
+      return database.make<SerialPort>(device_name, args...);
+   }
+
  private:
    explicit Database() = default;
    ~Database();
@@ -59,6 +78,7 @@ class Database
    static auto instance() -> Database&;
    auto stored_pins() -> std::unordered_map<uint16_t, BasePin*>&;
    auto stored_I2C_devices() -> std::unordered_map<uint16_t, gpio::I2C::I2CDevice*>&;
+   auto stored_serial_ports() -> std::unordered_map<std::string, gpio::serial::SerialPort*>&;
 
    template <typename Pin,
              typename... Args,
@@ -84,8 +104,22 @@ class Database
       return *device;
    }
 
+   template <
+      typename SerialPort,
+      typename... Args,
+      typename std::enable_if_t<std::is_same_v<gpio::serial::SerialPort, std::decay_t<SerialPort>>,
+                                int> = 0>
+   static auto make(const std::string& device_name, Args&&... args) -> SerialPort&
+   {
+      auto& stored_ports = instance().stored_serial_ports();
+      auto* port = new SerialPort(device_name, args...);
+      stored_ports.emplace(std::make_pair(device_name, std::move(port)));
+      return *port;
+   }
+
    std::unordered_map<uint16_t, BasePin*> m_stored_pins{};
    std::unordered_map<uint16_t, gpio::I2C::I2CDevice*> m_stored_I2C_devices{};
+   std::unordered_map<std::string, gpio::serial::SerialPort*> m_stored_serial_ports{};
 };
 } // namespace gpio
 

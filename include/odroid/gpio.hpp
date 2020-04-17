@@ -33,6 +33,16 @@ static auto get(uint16_t device_number, Args&&... args) -> I2CDevice&
 {
    return Database::get<I2CDevice>(device_number, args...);
 }
+
+template <
+   typename SerialPort,
+   typename... Args,
+   typename std::enable_if_t<std::is_same_v<gpio::serial::SerialPort, std::decay_t<SerialPort>>,
+                             int> = 0>
+static auto get(const std::string& device_name, Args&&... args) -> SerialPort&
+{
+   return Database::get<SerialPort>(device_name, args...);
+}
 } // namespace gpio
 
 #endif // ODROIDGPIO_HPP

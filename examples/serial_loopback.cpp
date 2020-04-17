@@ -12,7 +12,7 @@ namespace serial = gpio::serial;
 using namespace std::chrono_literals;
 auto main() -> int
 {
-   auto& serial_port = serial::SerialPort::get(DEVICE_NAME, BAUD_RATE);
+   auto& serial_port = gpio::get<serial::SerialPort>(DEVICE_NAME, BAUD_RATE);
 
    serial_port.write("This is the serial loopback mesage!");
    gpio::sleep(10ms);

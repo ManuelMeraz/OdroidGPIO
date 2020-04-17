@@ -29,6 +29,11 @@ gpio::Database::~Database()
       (void)_; // silence warning for unused variable
       delete I2C_device;
    }
+
+   for (auto& [_, serial_port] : m_stored_serial_ports) {
+      (void)_; // silence warning for unused variable
+      delete serial_port;
+   }
 }
 
 auto gpio::Database::stored_pins() -> std::unordered_map<uint16_t, BasePin*>&
@@ -39,4 +44,10 @@ auto gpio::Database::stored_pins() -> std::unordered_map<uint16_t, BasePin*>&
 auto gpio::Database::stored_I2C_devices() -> std::unordered_map<uint16_t, gpio::I2C::I2CDevice*>&
 {
    return m_stored_I2C_devices;
+}
+
+auto gpio::Database::stored_serial_ports()
+   -> std::unordered_map<std::string, gpio::serial::SerialPort*>&
+{
+   return m_stored_serial_ports;
 }
