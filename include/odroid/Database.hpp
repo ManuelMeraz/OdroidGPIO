@@ -14,18 +14,16 @@ class Database
    auto operator=(const Database&) -> Database& = delete;
    auto operator=(Database &&) -> Database& = delete;
 
-   static auto instance() -> Database&;
-   static auto contains(uint16_t pin_number) -> bool;
-   static auto get(uint16_t pin_number) -> BasePin&;
-
    template <typename Pin,
              typename... Args,
              typename std::enable_if_t<std::is_base_of_v<BasePin, std::decay_t<Pin>>, int> = 0>
    static auto get(uint16_t pin_number, Args&&... args) -> Pin&
    {
       auto& database = Database::instance();
-      if (Database::contains(pin_number)) {
-         auto& pin = gpio::Database::get(pin_number);
+      auto& stored_pins = database.stored_pins();
+      auto find_pin = stored_pins.find(pin_number);
+      if (find_pin != stored_pins.end()) {
+         auto& pin = *find_pin->second;
          if (nameof::nameof_type<std::decay_t<Pin>>() != pin.type()) {
             throw std::invalid_argument("Attempted to get pin that exists with incorrect type");
          }
@@ -40,6 +38,7 @@ class Database
    explicit Database() = default;
    ~Database();
 
+   static auto instance() -> Database&;
    auto stored_pins() -> std::unordered_map<uint16_t, BasePin*>&;
 
    template <typename Pin,
