@@ -1,36 +1,57 @@
+#include <gtest/gtest.h>
 #include <iostream>
 #include <odroid/gpio.hpp>
 
-auto main() -> int
+namespace gpio {
+namespace {
+TEST(TestDigitalPin, GettersAndSetters)
 {
-   if (!gpio::setup()) {
-      return 1;
+   constexpr size_t NUM_PINS{5};
+   constexpr std::array<uint8_t, NUM_PINS> PIN_NUMBERS{1, 2, 3, 4, 5};
+   for (size_t pin_number = PIN_NUMBERS[0]; pin_number <= PIN_NUMBERS[4]; ++pin_number) {
+
+      auto& digital_pin = gpio::get<digital::DigitalPin>(pin_number, digital::Mode::OUTPUT);
+      ASSERT_EQ(pin_number, digital_pin.pin_number())
+         << "Pin number passed in to digital pin constructor must be equal to its pin number";
+      ASSERT_EQ(digital::Mode::OUTPUT, digital_pin.mode())
+         << "Digital mode passed in to digital pin constructor must be equal to its mode";
+
+      digital_pin.mode(digital::Mode::INPUT);
+      ASSERT_EQ(digital::Mode::INPUT, digital_pin.mode())
+         << "Digital mode that was set must be equal to its mode";
    }
+}
 
-   namespace digital = gpio::digital;
-   auto& digital_pin = gpio::get<digital::DigitalPin>(10, digital::Mode::OUTPUT);
-   digital_pin.write(digital::IO::LOW);
+TEST(TestDigitalPin, TestSingleton)
+{
+   constexpr uint8_t PIN_NUMBER{10};
+   auto& digital_pin = gpio::get<digital::DigitalPin>(PIN_NUMBER, digital::Mode::INPUT);
+   auto& second_pin_instance = gpio::get<digital::DigitalPin>(PIN_NUMBER);
+   ASSERT_EQ(&digital_pin, &second_pin_instance)
+      << "Memory addresses must be the same for singleton";
 
-   std::cout << "mode: " << static_cast<uint16_t>(digital_pin.mode()) << std::endl;
-   std::cout << "pin_number: " << digital_pin.pin_number() << std::endl;
+   ASSERT_EQ(digital::Mode::INPUT, second_pin_instance.mode())
+      << "The second instance of the digital pin must have the same mode as the originally constructed pin";
 
-   digital_pin.mode(digital::Mode::INPUT);
+   digital_pin.mode(digital::Mode::OUTPUT);
+   ASSERT_EQ(digital::Mode::OUTPUT, second_pin_instance.mode())
+      << "When any instance of pin changes a value, all instances must also change.";
 
-   auto& second_pin_instance = gpio::get<digital::DigitalPin>(10);
-   std::cout << "second instance mode: " << static_cast<uint16_t>(second_pin_instance.mode())
-             << std::endl;
-
-   std::cout << "first instance mode should be 0 -> " << static_cast<uint16_t>(digital_pin.mode())
-             << std::endl;
-
-   namespace pwm = gpio::pwm;
    try {
-      gpio::get<pwm::PWMPin>(10, pwm::Mode::OUTPUT);
-      std::cerr << "Failed to catch incorrect pin type." << std::endl;
-      return 1;
+      gpio::get<pwm::PWMPin>(PIN_NUMBER, pwm::Mode::OUTPUT);
+      FAIL()
+         << "It must be impossible to get a pin that has already been constructed as another type.";
    } catch (const std::invalid_argument& e) {
-      std::cout << "Caught incorrect pin type. Passed." << std::endl;
+      SUCCEED();
    }
+}
 
+} // namespace
+} // namespace gpio
+
+auto main(int argc, char** argv) -> int
+{
+   ::testing::InitGoogleTest(&argc, argv);
+   return RUN_ALL_TESTS();
    return 0;
 }
