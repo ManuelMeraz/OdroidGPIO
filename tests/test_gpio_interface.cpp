@@ -47,7 +47,7 @@ TEST(TestPublicGPIO, getFromDatabase)
 
    constexpr uint32_t BAUD_RATE = 115200;
    try {
-      auto& serial_port = gpio::get<serial::SerialPort>("/dev/tty0", BAUD_RATE);
+      auto& serial_port = gpio::get<serial::Port>("/dev/tty0", BAUD_RATE);
       (void)serial_port;
       SUCCEED();
    } catch (const std::runtime_error& e) {
@@ -55,7 +55,7 @@ TEST(TestPublicGPIO, getFromDatabase)
    }
 
    constexpr uint16_t BOGUS_DEVICE_NUM = 5;
-   auto& i2c_device = gpio::get<I2C::I2CDevice>(BOGUS_DEVICE_NUM);
+   auto& i2c_device = gpio::get<I2C::Device>(BOGUS_DEVICE_NUM);
    (void)i2c_device;
 }
 } // namespace

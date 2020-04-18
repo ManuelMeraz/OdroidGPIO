@@ -55,7 +55,7 @@ namespace I2C = gpio::I2C;
 auto main() -> int
 {
    /* May optionally pass in sda and scl pin number to reserve them for code safety */
-   auto& device = gpio::get<I2C::I2CDevice>(DEVICE_ID);
+   auto& device = gpio::get<I2C::Device>(DEVICE_ID);
    std::cout << "I2C communication successfully setup.\n";
 
    /* Make sure we have the right device */

@@ -1,5 +1,5 @@
-#ifndef ODROIDGPIO_I2CDEVICE_HPP
-#define ODROIDGPIO_I2CDEVICE_HPP
+#ifndef ODROIDGPIO_DEVICE_HPP
+#define ODROIDGPIO_DEVICE_HPP
 
 #include <odroid/BasePin.hpp>
 #include <optional>
@@ -10,16 +10,16 @@ class Database;
 } // namespace gpio
 
 namespace gpio::I2C {
-class I2CDevice
+class Device
 {
    friend class gpio::Database;
 
  public:
-   I2CDevice() = delete;
-   I2CDevice(const I2CDevice&) = delete;
-   I2CDevice(I2CDevice&&) = delete;
-   auto operator=(const I2CDevice&) -> I2CDevice& = delete;
-   auto operator=(I2CDevice &&) -> I2CDevice& = delete;
+   Device() = delete;
+   Device(const Device&) = delete;
+   Device(Device&&) = delete;
+   auto operator=(const Device&) -> Device& = delete;
+   auto operator=(Device &&) -> Device& = delete;
 
    [[nodiscard]] auto read_8_bits(uint32_t register_address) const -> uint8_t;
    [[maybe_unused]] [[nodiscard]] auto read_16_bits(uint32_t register_address) const -> uint16_t;
@@ -47,10 +47,8 @@ class I2CDevice
    }
 
  private:
-   explicit I2CDevice(uint8_t device_number,
-                      uint16_t sda_pin_number = 0,
-                      uint16_t scl_pin_number = 0);
-   ~I2CDevice() = default;
+   explicit Device(uint8_t device_number, uint16_t sda_pin_number = 0, uint16_t scl_pin_number = 0);
+   ~Device() = default;
 
    BasePin& m_sda_pin;
    BasePin& m_scl_pin;
@@ -59,4 +57,4 @@ class I2CDevice
 };
 } // namespace gpio::I2C
 
-#endif // ODROIDGPIO_I2CDEVICE_HPP
+#endif // ODROIDGPIO_DEVICE_HPP

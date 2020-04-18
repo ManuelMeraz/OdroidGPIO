@@ -41,13 +41,12 @@ auto gpio::Database::stored_pins() -> std::unordered_map<uint16_t, BasePin*>&
    return m_stored_pins;
 }
 
-auto gpio::Database::stored_I2C_devices() -> std::unordered_map<uint16_t, gpio::I2C::I2CDevice*>&
+auto gpio::Database::stored_I2C_devices() -> std::unordered_map<uint16_t, gpio::I2C::Device*>&
 {
    return m_stored_I2C_devices;
 }
 
-auto gpio::Database::stored_serial_ports()
-   -> std::unordered_map<std::string, gpio::serial::SerialPort*>&
+auto gpio::Database::stored_serial_ports() -> std::unordered_map<std::string, gpio::serial::Port*>&
 {
    return m_stored_serial_ports;
 }

@@ -14,7 +14,7 @@ class Database;
 namespace gpio::pwm {
 class Pin final : public BasePin
 {
-   friend class ::gpio::Database;
+   friend class gpio::Database;
 
  public:
    Pin() = delete;

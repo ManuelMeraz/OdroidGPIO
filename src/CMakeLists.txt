@@ -8,9 +8,9 @@ add_library(odroidgpio
         digital/digital.cpp
         pwm/Pin.cpp
         pwm/pwm.cpp
-        serial/SerialPort.cpp
+        serial/Port.cpp
         serial/serial.cpp
-        I2C/I2CDevice.cpp
+        I2C/Device.cpp
         I2C/I2C.cpp)
 
 target_link_libraries(odroidgpio
