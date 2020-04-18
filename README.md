@@ -10,7 +10,7 @@ Installation instructions
 ```
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTING=ON ..
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON ..
 make -j6
 sudo ctest 
 sudo make install
