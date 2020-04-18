@@ -8,7 +8,7 @@ namespace digital = gpio::digital;
 
 auto main() -> int
 {
-   auto& pin = gpio::get<digital::DigitalPin>(PIN_NUMBER, digital::Mode::OUTPUT);
+   auto& pin = gpio::get<digital::Pin>(PIN_NUMBER, digital::Mode::OUTPUT);
 
    while (true) {
       std::cout << "Turning LED on!" << std::endl;

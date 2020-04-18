@@ -32,17 +32,17 @@ TEST(TestPublicGPIO, getFromDatabase)
    ASSERT_EQ(base_pin.pin_number(), 0);
 
    try {
-      auto& pwm_pin = gpio::get<gpio::pwm::PWMPin>(0, pwm::Mode::OFF);
+      auto& pwm_pin = gpio::get<gpio::pwm::Pin>(0, pwm::Mode::OFF);
       (void)pwm_pin;
       FAIL() << "A pin was generated despite another pin existing with the same number.";
    } catch (const std::invalid_argument& e) {
       SUCCEED();
    }
 
-   auto& good_pwm_pin = gpio::get<gpio::pwm::PWMPin>(1, pwm::Mode::OFF);
+   auto& good_pwm_pin = gpio::get<gpio::pwm::Pin>(1, pwm::Mode::OFF);
    ASSERT_EQ(good_pwm_pin.pin_number(), 1);
 
-   auto& digital_pin = gpio::get<gpio::digital::DigitalPin>(2, digital::Mode::OFF);
+   auto& digital_pin = gpio::get<gpio::digital::Pin>(2, digital::Mode::OFF);
    ASSERT_EQ(digital_pin.pin_number(), 2);
 
    constexpr uint32_t BAUD_RATE = 115200;

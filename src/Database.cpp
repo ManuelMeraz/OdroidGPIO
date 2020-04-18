@@ -1,8 +1,8 @@
 #include "odroid/Database.hpp"
 
 #include <iostream>
-#include <odroid/digital/DigitalPin.hpp>
-#include <odroid/pwm/PWMPin.hpp>
+#include <odroid/digital/Pin.hpp>
+#include <odroid/pwm/Pin.hpp>
 
 auto gpio::Database::instance() -> gpio::Database&
 {
@@ -16,10 +16,10 @@ gpio::Database::~Database()
       (void)_; // silence warning for unused variable
 
       const auto type = pin->type();
-      if (type == "gpio::pwm::PWMPin") {
-         delete reinterpret_cast<gpio::pwm::PWMPin*>(pin);
-      } else if (type == "gpio::digital::DigitalPin") {
-         delete reinterpret_cast<gpio::digital::DigitalPin*>(pin);
+      if (type == "gpio::pwm::Pin") {
+         delete reinterpret_cast<gpio::pwm::Pin*>(pin);
+      } else if (type == "gpio::digital::Pin") {
+         delete reinterpret_cast<gpio::digital::Pin*>(pin);
       } else { // base pin
          delete pin;
       }

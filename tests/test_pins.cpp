@@ -10,7 +10,7 @@ TEST(TestDigitalPin, GettersAndSetters)
    constexpr std::array<uint8_t, NUM_PINS> PIN_NUMBERS{1, 2, 3, 4, 5};
    for (size_t pin_number = PIN_NUMBERS[0]; pin_number <= PIN_NUMBERS[4]; ++pin_number) {
 
-      auto& digital_pin = gpio::get<digital::DigitalPin>(pin_number, digital::Mode::OUTPUT);
+      auto& digital_pin = gpio::get<digital::Pin>(pin_number, digital::Mode::OUTPUT);
       ASSERT_EQ(pin_number, digital_pin.pin_number())
          << "Pin number passed in to digital pin constructor must be equal to its pin number";
       ASSERT_EQ(digital::Mode::OUTPUT, digital_pin.mode())
@@ -25,8 +25,8 @@ TEST(TestDigitalPin, GettersAndSetters)
 TEST(TestDigitalPin, TestSingleton)
 {
    constexpr uint8_t PIN_NUMBER{10};
-   auto& digital_pin = gpio::get<digital::DigitalPin>(PIN_NUMBER, digital::Mode::INPUT);
-   auto& second_pin_instance = gpio::get<digital::DigitalPin>(PIN_NUMBER);
+   auto& digital_pin = gpio::get<digital::Pin>(PIN_NUMBER, digital::Mode::INPUT);
+   auto& second_pin_instance = gpio::get<digital::Pin>(PIN_NUMBER);
    ASSERT_EQ(&digital_pin, &second_pin_instance)
       << "Memory addresses must be the same for singleton";
 
@@ -38,7 +38,7 @@ TEST(TestDigitalPin, TestSingleton)
       << "When any instance of pin changes a value, all instances must also change.";
 
    try {
-      gpio::get<pwm::PWMPin>(PIN_NUMBER, pwm::Mode::OUTPUT);
+      gpio::get<pwm::Pin>(PIN_NUMBER, pwm::Mode::OUTPUT);
       FAIL()
          << "It must be impossible to get a pin that has already been constructed as another type.";
    } catch (const std::invalid_argument& e) {

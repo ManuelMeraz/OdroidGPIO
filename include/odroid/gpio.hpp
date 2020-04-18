@@ -4,9 +4,9 @@
 #include "BasePin.hpp"
 #include "Database.hpp"
 #include "odroid/I2C/I2CDevice.hpp"
-#include "odroid/digital/DigitalPin.hpp"
+#include "odroid/digital/Pin.hpp"
 #include "odroid/digital/digital.hpp"
-#include "odroid/pwm/PWMPin.hpp"
+#include "odroid/pwm/Pin.hpp"
 #include "odroid/pwm/pwm.hpp"
 #include "odroid/serial/SerialPort.hpp"
 

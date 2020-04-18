@@ -6,17 +6,22 @@
 #include <cstdint>
 #include <memory>
 #include <odroid/BasePin.hpp>
-#include <odroid/Database.hpp>
+
+namespace gpio {
+class Database;
+}
 
 namespace gpio::digital {
-class DigitalPin final : public BasePin
+class Pin final : public BasePin
 {
+   friend class ::gpio::Database;
+
  public:
-   DigitalPin() = delete;
-   DigitalPin(const DigitalPin&) = delete;
-   DigitalPin(DigitalPin&&) = delete;
-   auto operator=(const DigitalPin&) -> DigitalPin& = delete;
-   auto operator=(DigitalPin &&) -> DigitalPin& = delete;
+   Pin() = delete;
+   Pin(const Pin&) = delete;
+   Pin(Pin&&) = delete;
+   auto operator=(const Pin&) -> Pin& = delete;
+   auto operator=(Pin &&) -> Pin& = delete;
 
    [[nodiscard]] auto mode() const -> Mode;
    void mode(Mode mode);
@@ -25,10 +30,8 @@ class DigitalPin final : public BasePin
    void write(IO mode);
 
  private:
-   friend class ::gpio::Database;
-
-   explicit DigitalPin(uint16_t pin_number, Mode mode = Mode::OUTPUT);
-   ~DigitalPin();
+   explicit Pin(uint16_t pin_number, Mode mode = Mode::OUTPUT);
+   ~Pin();
 
    Mode m_mode{};
 };

@@ -4,9 +4,9 @@ add_library(odroidgpio
         Database.cpp
         gpio.cpp
 
-        digital/DigitalPin.cpp
+        digital/Pin.cpp
         digital/digital.cpp
-        pwm/PWMPin.cpp
+        pwm/Pin.cpp
         pwm/pwm.cpp
         serial/SerialPort.cpp
         serial/serial.cpp
