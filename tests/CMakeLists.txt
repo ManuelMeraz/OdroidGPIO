@@ -30,6 +30,13 @@ if(CMAKE_VERSION VERSION_LESS 2.8.11)
     include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-add_subdirectory(public)
-add_subdirectory(private)
+list(APPEND tests
+        test_pins
+        test_gpio_interface)
+
+foreach(test IN LISTS tests)
+    add_executable(${test} ${test}.cpp)
+    target_link_libraries(${test} PRIVATE odroidgpio gtest_main)
+    add_test(NAME ${test} COMMAND ${test})
+endforeach()
 
