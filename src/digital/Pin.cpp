@@ -3,7 +3,6 @@
 #include <detail/gpio.hpp>
 #include <odroid/digital/Pin.hpp>
 #include <odroid/gpio.hpp>
-#include <wiringPi.h>
 
 gpio::digital::Pin::Pin(uint16_t pin_number, Mode mode) : BasePin(pin_number), m_mode(mode)
 {

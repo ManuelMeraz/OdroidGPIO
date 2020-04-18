@@ -36,7 +36,7 @@ list(APPEND tests
 
 foreach(test IN LISTS tests)
     add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} PRIVATE odroidgpio gtest_main)
+    target_link_libraries(${test} PRIVATE OdroidGPIO gtest_main)
     add_test(NAME ${test} COMMAND ${test})
 endforeach()
 

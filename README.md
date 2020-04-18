@@ -20,10 +20,7 @@ In your project you can link to the library using cmake. No need to create your 
 ```
 find_package(Threads REQUIRED)
 find_package(OdroidGPIO REQUIRED)
-add_library(libodroidgpio INTERFACE)
-target_link_libraries(libodroidgpio INTERFACE ${ODROIDGPIO_LIBRARIES})
-target_include_directories(libodroidgpio INTERFACE ${ODROIDGPIO_INCLUDE_DIRS})
 
 add_executable(main main.cpp)
-target_link_libraries(main PRIVATE libodroidgpio Threads::Threads)
+target_link_libraries(main PRIVATE OdroidGPIO Threads::Threads)
 ```

@@ -6,7 +6,7 @@ project(OdroidGPIO
 
 include(cmake/Setup.cmake)
 
-# Create odroidgpio target and library
+# Create OdroidGPIO target and library
 add_subdirectory(src)
 add_subdirectory(examples)
 
@@ -17,7 +17,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
 endif()
 
 # Add all targets to the build-tree export set
-export(TARGETS odroidgpio FILE "${PROJECT_BINARY_DIR}/OdroidGPIOTargets.cmake")
+export(TARGETS OdroidGPIO FILE "${PROJECT_BINARY_DIR}/OdroidGPIOTargets.cmake")
 
 # Export the package for use from the build-tree
 # (this registers the build-tree with a global CMake-registry)

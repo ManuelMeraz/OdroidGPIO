@@ -6,5 +6,5 @@ list(APPEND examples
 
 foreach(example IN LISTS examples)
     add_executable(${example} ${example}.cpp)
-    target_link_libraries(${example} PRIVATE odroidgpio)
+    target_link_libraries(${example} PRIVATE OdroidGPIO)
 endforeach()
