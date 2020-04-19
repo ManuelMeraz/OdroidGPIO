@@ -7,6 +7,9 @@
 get_filename_component(ODROIDGPIO_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 set(ODROIDGPIO_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
 
+include(CMakeFindDependencyMacro)
+find_dependency(Threads REQUIRED)
+
 # Our library dependencies (contains definitions for IMPORTED targets)
 if(NOT TARGET OdroidGPIO)
     include("${ODROIDGPIO_CMAKE_DIR}/OdroidGPIOTargets.cmake")

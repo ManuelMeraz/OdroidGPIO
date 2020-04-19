@@ -18,9 +18,8 @@ sudo make install
 
 In your project you can link to the library using cmake. No need to create your own cmake find package module.
 ```
-find_package(Threads REQUIRED)
 find_package(OdroidGPIO REQUIRED)
 
 add_executable(main main.cpp)
-target_link_libraries(main PRIVATE OdroidGPIO Threads::Threads)
+target_link_libraries(main PRIVATE OdroidGPIO)
 ```
