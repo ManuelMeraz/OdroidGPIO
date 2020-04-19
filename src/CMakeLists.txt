@@ -15,7 +15,7 @@ add_library(OdroidGPIO
 
 target_link_libraries(OdroidGPIO
         PUBLIC wiringPi
-        Threads::Threads rt crypt)
+        PRIVATE Threads::Threads rt crypt)
 
 target_include_directories(OdroidGPIO
         PUBLIC
@@ -30,4 +30,5 @@ install(TARGETS OdroidGPIO
         LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT shlib
         PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}"
         COMPONENT dev)
+
 
