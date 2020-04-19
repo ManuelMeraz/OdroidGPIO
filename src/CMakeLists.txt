@@ -10,7 +10,7 @@ add_library(OdroidGPIO
         pwm/pwm.cpp
         serial/Port.cpp
         serial/serial.cpp
-        I2C/Device.cpp
+        I2C/Bus.cpp
         I2C/I2C.cpp)
 
 target_link_libraries(OdroidGPIO

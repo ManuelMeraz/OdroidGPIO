@@ -9,7 +9,7 @@ auto gpio::I2C::open(uint8_t device_number) -> int
    const int file_descriptor = wiringPiI2CSetup(device_number);
    if (file_descriptor == -1) {
       std::stringstream ss;
-      ss << "Failed to open I2C device number. Device: " << device_number << std::endl;
+      ss << "Failed to open I2C device number. Bus: " << device_number << std::endl;
       throw std::runtime_error(ss.str());
    }
 

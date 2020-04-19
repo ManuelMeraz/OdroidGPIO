@@ -9,7 +9,7 @@ auto gpio::serial::open(const std::string& device, uint32_t baud_rate) -> int
    const int file_descriptor = serialOpen(device.c_str(), static_cast<int>(baud_rate));
    if (file_descriptor == -1) {
       std::stringstream ss;
-      ss << "Failed to open serial device. Device: " << device << " Baud Rate: " << baud_rate
+      ss << "Failed to open serial device. Bus: " << device << " Baud Rate: " << baud_rate
          << std::endl;
       throw std::runtime_error(ss.str());
    }

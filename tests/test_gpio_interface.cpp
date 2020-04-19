@@ -55,8 +55,8 @@ TEST(TestPublicGPIO, getFromDatabase)
    }
 
    constexpr uint16_t BOGUS_DEVICE_NUM = 5;
-   auto& i2c_device = gpio::get<I2C::Device>(BOGUS_DEVICE_NUM);
-   (void)i2c_device;
+   auto& i2c_bus = gpio::get<I2C::Bus>(BOGUS_DEVICE_NUM);
+   (void)i2c_bus;
 }
 } // namespace
 } // namespace gpio

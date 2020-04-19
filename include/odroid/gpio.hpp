@@ -3,7 +3,7 @@
 
 #include "BasePin.hpp"
 #include "Database.hpp"
-#include "odroid/I2C/Device.hpp"
+#include "odroid/I2C/Bus.hpp"
 #include "odroid/digital/Pin.hpp"
 #include "odroid/digital/digital.hpp"
 #include "odroid/pwm/Pin.hpp"
@@ -25,12 +25,12 @@ auto get(uint16_t pin_number, Args&&... args) -> Pin&
    return Database::get<Pin>(pin_number, args...);
 }
 
-template <typename I2CDevice,
+template <typename Bus,
           typename... Args,
-   typename std::enable_if_t<std::is_same_v<gpio::I2C::Device, std::decay_t<I2CDevice>>, int> = 0>
-static auto get(uint16_t device_number, Args&&... args) -> I2CDevice&
+          typename std::enable_if_t<std::is_same_v<gpio::I2C::Bus, std::decay_t<Bus>>, int> = 0>
+static auto get(uint16_t device_number, Args&&... args) -> Bus&
 {
-   return Database::get<I2CDevice>(device_number, args...);
+   return Database::get<Bus>(device_number, args...);
 }
 
 template <

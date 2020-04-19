@@ -3,7 +3,7 @@
 
 #include <nameof/nameof.hpp>
 #include <odroid/BasePin.hpp>
-#include <odroid/I2C/Device.hpp>
+#include <odroid/I2C/Bus.hpp>
 #include <odroid/serial/Port.hpp>
 #include <unordered_map>
 
@@ -36,21 +36,20 @@ class Database
       return database.make<Pin>(pin_number, args...);
    }
 
-   template <typename I2CDevice,
+   template <typename Bus,
              typename... Args,
-             typename std::enable_if_t<std::is_same_v<gpio::I2C::Device, std::decay_t<I2CDevice>>,
-                                       int> = 0>
-   static auto get(uint8_t device_number, Args&&... args) -> I2CDevice&
+             typename std::enable_if_t<std::is_same_v<gpio::I2C::Bus, std::decay_t<Bus>>, int> = 0>
+   static auto get(uint8_t device_number, Args&&... args) -> Bus&
    {
       auto& database = Database::instance();
-      auto& stored_devices = database.stored_I2C_devices();
-      auto find_device = stored_devices.find(device_number);
-      if (find_device != stored_devices.end()) {
-         auto& device = *find_device->second;
-         return static_cast<I2CDevice&>(device);
+      auto& stored_buses = database.stored_I2C_buses();
+      auto find_bus = stored_buses.find(device_number);
+      if (find_bus != stored_buses.end()) {
+         auto& bus = *find_bus->second;
+         return static_cast<Bus&>(bus);
       }
 
-      return database.make<I2CDevice>(device_number, args...);
+      return database.make<Bus>(device_number, args...);
    }
 
    template <
@@ -77,7 +76,7 @@ class Database
 
    static auto instance() -> Database&;
    auto stored_pins() -> std::unordered_map<uint16_t, BasePin*>&;
-   auto stored_I2C_devices() -> std::unordered_map<uint16_t, gpio::I2C::Device*>&;
+   auto stored_I2C_buses() -> std::unordered_map<uint16_t, gpio::I2C::Bus*>&;
    auto stored_serial_ports() -> std::unordered_map<std::string, gpio::serial::Port*>&;
 
    template <typename Pin,
@@ -92,16 +91,15 @@ class Database
       return *pin;
    }
 
-   template <typename I2CDevice,
+   template <typename Bus,
              typename... Args,
-             typename std::enable_if_t<std::is_same_v<gpio::I2C::Device, std::decay_t<I2CDevice>>,
-                                       int> = 0>
-   static auto make(uint16_t device_number, Args&&... args) -> I2CDevice&
+             typename std::enable_if_t<std::is_same_v<gpio::I2C::Bus, std::decay_t<Bus>>, int> = 0>
+   static auto make(uint16_t device_number, Args&&... args) -> Bus&
    {
-      auto& stored_devices = instance().stored_I2C_devices();
-      auto* device = new I2CDevice(device_number, args...);
-      stored_devices.emplace(std::make_pair(device_number, std::move(device)));
-      return *device;
+      auto& stored_buses = instance().stored_I2C_buses();
+      auto* bus = new Bus(device_number, args...);
+      stored_buses.emplace(std::make_pair(device_number, std::move(bus)));
+      return *bus;
    }
 
    template <
@@ -118,7 +116,7 @@ class Database
    }
 
    std::unordered_map<uint16_t, BasePin*> m_stored_pins{};
-   std::unordered_map<uint16_t, gpio::I2C::Device*> m_stored_I2C_devices{};
+   std::unordered_map<uint16_t, gpio::I2C::Bus*> m_stored_I2C_buses{};
    std::unordered_map<std::string, gpio::serial::Port*> m_stored_serial_ports{};
 };
 } // namespace gpio

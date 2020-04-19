@@ -1,7 +1,7 @@
 #include <iostream>
 #include <odroid/gpio.hpp>
 
-/* Make sure to set your I2C device to 100 khz for bno055 compatibility */
+/* Make sure to set your I2C bus to 100 khz for bno055 compatibility */
 
 /* These enums are straight out of the adafruit_bno055 header file */
 enum adafruit_bno055_reg_t {
@@ -38,7 +38,7 @@ enum adafruit_vector_type_t {
 };
 
 /**
- * Device ID for odroid n2 SDA.2 and SCL.2.
+ * Bus ID for odroid n2 SDA.2 and SCL.2.
  * Physical pins 3 and 5 respectively on Odroid N2
  *
  * Use i2c utils to acquire hex value for this
@@ -55,36 +55,36 @@ namespace I2C = gpio::I2C;
 auto main() -> int
 {
    /* May optionally pass in sda and scl pin number to reserve them for code safety */
-   auto& device = gpio::get<I2C::Device>(DEVICE_ID);
+   auto& bus = gpio::get<I2C::Bus>(DEVICE_ID);
    std::cout << "I2C communication successfully setup.\n";
 
-   /* Make sure we have the right device */
-   uint8_t id = device.read_8_bits(BNO055_CHIP_ID_ADDR);
+   /* Make sure we have the right bus */
+   uint8_t id = bus.read_8_bits(BNO055_CHIP_ID_ADDR);
    if (id != BNO055_ID) {
-      std::cerr << "Couldn't verify that this was the right device" << std::endl;
+      std::cerr << "Couldn't verify that this was the right bus" << std::endl;
       std::cerr << "Valid id: " << BNO055_ID << " got id: " << static_cast<uint32_t>(id)
                 << std::endl;
       return 1;
    }
 
-   /* Switch device to measurement mode */
-   device.write_8_bits(BNO055_OPR_MODE_ADDR, OPERATION_MODE_CONFIG);
+   /* Switch bus to measurement mode */
+   bus.write_8_bits(BNO055_OPR_MODE_ADDR, OPERATION_MODE_CONFIG);
 
    /* Reset */
-   device.write_8_bits(BNO055_SYS_TRIGGER_ADDR, 0x20);
+   bus.write_8_bits(BNO055_SYS_TRIGGER_ADDR, 0x20);
 
    /* Delay incrased to 30ms due to power issues https://tinyurl.com/y375z699 */
    gpio::sleep(30ms);
-   while (device.read_8_bits(BNO055_CHIP_ID_ADDR) != BNO055_ID) {
+   while (bus.read_8_bits(BNO055_CHIP_ID_ADDR) != BNO055_ID) {
       gpio::sleep(10ms);
    }
    gpio::sleep(50ms);
 
    /* Set to normal power mode */
-   device.write_8_bits(BNO055_PWR_MODE_ADDR, POWER_MODE_NORMAL);
+   bus.write_8_bits(BNO055_PWR_MODE_ADDR, POWER_MODE_NORMAL);
    gpio::sleep(10ms);
 
-   device.write_8_bits(BNO055_PAGE_ID_ADDR, 0x0);
+   bus.write_8_bits(BNO055_PAGE_ID_ADDR, 0x0);
 
    /* Set the output units */
    uint8_t unitsel = (0 << 7) | // Orientation = Android
@@ -92,13 +92,13 @@ auto main() -> int
                      (0 << 2) | // Euler = Degrees
                      (1 << 1) | // Gyro = Rads
                      (0 << 0);  // Accelerometer = m/s^2
-   device.write_8_bits(BNO055_UNIT_SEL_ADDR, unitsel);
+   bus.write_8_bits(BNO055_UNIT_SEL_ADDR, unitsel);
 
-   device.write_8_bits(BNO055_SYS_TRIGGER_ADDR, 0x0);
+   bus.write_8_bits(BNO055_SYS_TRIGGER_ADDR, 0x0);
    gpio::sleep(10ms);
 
    /* Nine degrees of freedom mode */
-   device.write_8_bits(BNO055_OPR_MODE_ADDR, OPERATION_MODE_NDOF);
+   bus.write_8_bits(BNO055_OPR_MODE_ADDR, OPERATION_MODE_NDOF);
    gpio::sleep(20ms);
 
    struct Vector3
@@ -113,7 +113,7 @@ auto main() -> int
    constexpr size_t VECTOR_SIZE = sizeof(Vector3); // 6 bytes
    while (true) {
       /* Array of byte data of size 6 */
-      auto linear_acceleration_data = device.read<VECTOR_SIZE>(VECTOR_LINEARACCEL);
+      auto linear_acceleration_data = bus.read<VECTOR_SIZE>(VECTOR_LINEARACCEL);
 
       /* Map data onto the vector */
       acceleration = *reinterpret_cast<Vector3*>(&linear_acceleration_data[0]);
